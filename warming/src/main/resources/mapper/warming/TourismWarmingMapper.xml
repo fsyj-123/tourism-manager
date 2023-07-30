@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.warming.mapper.TourismWarmingMapper">
+    
+    <resultMap type="TourismWarming" id="TourismWarmingResult">
+        <result property="warmId"    column="warm_id"    />
+        <result property="warmType"    column="warm_type"    />
+        <result property="warmNum"    column="warm_num"    />
+        <result property="status"    column="status"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="deleted"    column="deleted"    />
+    </resultMap>
+
+    <sql id="selectTourismWarmingVo">
+        select warm_id, warm_type, warm_num, status, create_by, create_time, update_by, update_time, remark, deleted from tourism_warming
+    </sql>
+
+    <select id="selectTourismWarmingList" parameterType="TourismWarming" resultMap="TourismWarmingResult">
+        <include refid="selectTourismWarmingVo"/>
+        <where>  
+            <if test="warmId != null "> and warm_id = #{warmId}</if>
+            <if test="warmType != null  and warmType != ''"> and warm_type like concat('%', #{warmType}, '%')</if>
+            <if test="warmNum != null "> and warm_num = #{warmNum}</if>
+            <if test="status != null "> and status = #{status}</if>
+            <if test="createBy != null  and createBy != ''"> and create_by = #{createBy}</if>
+            <if test="createTime != null "> and create_time = #{createTime}</if>
+            <if test="updateBy != null  and updateBy != ''"> and update_by = #{updateBy}</if>
+            <if test="updateTime != null "> and update_time = #{updateTime}</if>
+            <if test="remark != null  and remark != ''"> and remark = #{remark}</if>
+            <if test="deleted != null "> and deleted = #{deleted}</if>
+        </where>
+    </select>
+    
+    <select id="selectTourismWarmingByWarmId" parameterType="Long" resultMap="TourismWarmingResult">
+        <include refid="selectTourismWarmingVo"/>
+        where warm_id = #{warmId}
+    </select>
+        
+    <insert id="insertTourismWarming" parameterType="TourismWarming">
+        insert into tourism_warming
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="warmId != null">warm_id,</if>
+            <if test="warmType != null and warmType != ''">warm_type,</if>
+            <if test="warmNum != null">warm_num,</if>
+            <if test="status != null">status,</if>
+            <if test="createBy != null and createBy != ''">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+            <if test="deleted != null">deleted,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="warmId != null">#{warmId},</if>
+            <if test="warmType != null and warmType != ''">#{warmType},</if>
+            <if test="warmNum != null">#{warmNum},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createBy != null and createBy != ''">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="deleted != null">#{deleted},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTourismWarming" parameterType="TourismWarming">
+        update tourism_warming
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="warmType != null and warmType != ''">warm_type = #{warmType},</if>
+            <if test="warmNum != null">warm_num = #{warmNum},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="createBy != null and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="deleted != null">deleted = #{deleted},</if>
+        </trim>
+        where warm_id = #{warmId}
+    </update>
+
+    <delete id="deleteTourismWarmingByWarmId" parameterType="Long">
+        delete from tourism_warming where warm_id = #{warmId}
+    </delete>
+
+    <delete id="deleteTourismWarmingByWarmIds" parameterType="String">
+        delete from tourism_warming where warm_id in 
+        <foreach item="warmId" collection="array" open="(" separator="," close=")">
+            #{warmId}
+        </foreach>
+    </delete>
+</mapper>

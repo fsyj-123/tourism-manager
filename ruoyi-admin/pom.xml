@@ -46,7 +46,10 @@
             <groupId>com.ruoyi</groupId>
             <artifactId>guide</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>warming</artifactId>
+        </dependency>
 
 
 

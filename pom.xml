@@ -131,7 +131,11 @@
             <artifactId>guide</artifactId>
             <version>${ruoyi.version}</version>
         </dependency>
-
+            <dependency>
+                <groupId>com.ruoyi</groupId>
+                <artifactId>warming</artifactId>
+                <version>${ruoyi.version}</version>
+            </dependency>
 
 
 
@@ -227,6 +231,7 @@
         <module>ruoyi-generator</module>
         <module>ruoyi-common</module>
         <module>tourism-manager</module>
+        <module>warming</module>
     </modules>
     <packaging>pom</packaging>
 
