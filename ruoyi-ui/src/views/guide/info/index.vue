@@ -1,27 +1,23 @@
 <template>
     <div class="app-container">
-        <el-form ref="myForm" :model="myForm" size="medium" label-width="100px">
+        <el-form ref="myForm" :model="formData" size="medium" label-width="100px">
             <el-form-item label="姓名" prop="name">
-                {{myForm.name}}
+                {{formData.name}}
             </el-form-item>
             <el-form-item label="电话号码" prop="phone">
-                {{myForm.phone}}
+                {{formData.phone}}
             </el-form-item>
-            <el-form-item label="身份证号" prop="identity_id">
-                {{myForm.identity_id}}
+            <el-form-item label="身份证号" prop="identityId">
+                {{formData.identityId}}
             </el-form-item>
             <el-form-item label="所属旅行社" prop="agency">
-                <el-select v-model="myForm.agency" placeholder="请选择所属旅行社" clearable :style="{width: '100%'}">
-                    {{myForm.agency}}
-                </el-select>
+                {{formData.agency}}
             </el-form-item>
-            <el-form-item label="导游证号" prop="license_number">
-                {{myForm.license_number}}
+            <el-form-item label="导游证号" prop="licenseNumber">
+                {{formData.licenseNumber}}
             </el-form-item>
-            <el-form-item label="日期范围" prop="license_effect_time">
-                <el-date-picker type="daterange" v-model="myForm.license_effect_time" format="yyyy-MM-dd"
-                    value-format="yyyy-MM-dd" :style="{width: '100%'}" start-placeholder="开始日期" end-placeholder="结束日期"
-                    range-separator="至" clearable></el-date-picker>
+            <el-form-item label="有效日期" prop="licenseEffectTime">
+                {{formData.licenseEffectTime}}
             </el-form-item>
             <el-form-item label="导游证上传" prop="field110" required>
                 <img src="">
@@ -41,8 +37,8 @@
                     <el-input v-model="formData.phone" placeholder="请输入电话号码" style="width: '100%'">
                     </el-input>
                 </el-form-item>
-                <el-form-item label="身份证号" prop="identity_id">
-                    <el-input v-model="formData.identity_id" placeholder="请输入身份证号" style="width: '100%'">
+                <el-form-item label="身份证号" prop="identityId">
+                    <el-input v-model="formData.identityId" placeholder="请输入身份证号" style="width: '100%'">
                     </el-input>
                 </el-form-item>
                 <el-form-item label="所属旅行社" prop="agency">
@@ -51,11 +47,11 @@
                             :value="item.value" :disabled="item.disabled"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="导游证号" prop="license_number">
-                    <el-input v-model="formData.license_number" placeholder="请输入导游证号" style="width: '100%'"></el-input>
+                <el-form-item label="导游证号" prop="licenseNumber">
+                    <el-input v-model="formData.licenseNumber" placeholder="请输入导游证号" style="width: '100%'"></el-input>
                 </el-form-item>
-                <el-form-item label="日期范围" prop="license_effect_time">
-                    <el-date-picker type="daterange" v-model="formData.license_effect_time" format="yyyy-MM-dd"
+                <el-form-item label="有效日期" prop="licenseEffectTime">
+                    <el-date-picker type="daterange" v-model="formData.licenseEffectTime" format="yyyy-MM-dd"
                         value-format="yyyy-MM-dd" style="width: '100%'" start-placeholder="开始日期" end-placeholder="结束日期"
                         range-separator="至"></el-date-picker>
                 </el-form-item>
@@ -85,24 +81,27 @@
         data() {
             return {
                 diavisible: false,
-                myForm: {
-                    name: "吴所谓",
-                    phone: "19827275084",
-                    identity_id: "533104199908082111",
-                    agency: "",
-                    license_number: "123XXXXXX",
-                    license_effect_time: "",
-                    field110: "url",
-                },
+                // myForm: {
+                //     name: "吴所谓",
+                //     phone: "19827275084",
+                //     identityId: "533104199908082111",
+                //     agency: "",
+                //     licenseNumber: "123XXXXXX",
+                //     licenseEffectTime: "",
+                //     field110: "url",
+                // },
                 formData: {
                     name: undefined,
                     phone: undefined,
-                    identity_id: undefined,
+                    identityId: undefined,
                     agency: undefined,
-                    license_number: undefined,
-                    license_effect_time: null,
+                    licenseNumber: undefined,
+                    licenseEffectTime: null,
                     field110: null,
+                    licenseStartTime: null,
+                    licenseEndTime: null,
                 },
+                guideData: {},
                 // rules: {
                 //     name: [{
                 //         required: true,
@@ -114,18 +113,18 @@
                 //         message: '请输入电话号码',
                 //         trigger: 'blur'
                 //     }],
-                //     identity_id: [{
+                //     identityId: [{
                 //         required: true,
                 //         message: '请输入身份证号',
                 //         trigger: 'blur'
                 //     }],
                 //     agency: [],
-                //     license_number: [{
+                //     licenseNumber: [{
                 //         required: true,
                 //         message: '请输入导游证号',
                 //         trigger: 'blur'
                 //     }],
-                //     license_effect_time: [{
+                //     licenseEffectTime: [{
                 //         required: true,
                 //         message: '日期范围不能为空',
                 //         trigger: 'change'
@@ -156,14 +155,13 @@
                     qualify: null,
                     licenseNumber: null,
                     licenseStartTime: null,
-                    lecenseEndTime: null,
+                    licenseEndTime: null,
                 },
             }
         },
         computed: {},
         watch: {},
         mounted() {
-            console.log("mouted");
             this.getList()
         },
         // mounted() { },
@@ -172,6 +170,7 @@
                 this.$refs['elForm'].resetFields()
             },
             open() {
+                this.getList()
                 this.reset()
                 this.diavisible = true
             },
@@ -186,10 +185,15 @@
                 this.loading = true;
                 const username = Cookies.get("username");//用户名=电话
                 this.queryParams.phone = username;
-                // 从存储中拿取账号（电话），作为参数传入listInfo
+                // 从存储中拿取账号（电话号码），作为参数传入listInfo
                 listInfo(this.queryParams).then(response => {
                     // 查看返回的data值，设置myForm
-                    console.log("data", response);
+                    console.log("response", response);
+                    this.guideData = response.rows[0];
+                    console.log("guideData: ", this.guideData);
+                    this.formData = this.guideData
+
+                    this.formData.licenseEffectTime = this.formData.licenseStartTime + " 至 " + this.formData.licenseEndTime
                     // this.infoList = response.rows;
                     // this.total = response.total;
                     this.loading = false;
@@ -199,9 +203,17 @@
             handleConfirm() {
                 this.$refs['elForm'].validate(valid => {
                     if (valid) {
-                        console.log(this.formData);
-                        if (this.myForm.identityId != null) {
+                        console.log("valid-formdata", this.formData);
+                        // 处理时间范围数据
+                        for (let i = 0; i < this.formData.licenseEffectTime.length; i++) {
+                            this.formData.licenseStartTime = this.formData.licenseEffectTime[0]
+                            // this.formData.licenseStartTime = new SimpleDateFormat("yyyy-MM-dd").parse(this.formData.licenseEffectTime[0])
+                            this.formData.licenseEndTime = this.formData.licenseEffectTime[1]
+                            // this.formData.licenseEndTime = new SimpleDateFormat("yyyy-MM-dd").parse(this.formData.licenseEffectTime[1])
+                        }
+                        if (this.guideData) {
                             console.log("编辑");
+                            console.log("编辑-formdata", this.formData);
                             updateInfo(this.formData).then(response => {
                                 this.$modal.msgSuccess("编辑成功");
                                 this.close()
@@ -211,6 +223,7 @@
                         }
                         else {
                             console.log("新增");
+                            console.log("新增-formdata", this.formData);
                             addInfo(this.formData).then(response => {
                                 this.$modal.msgSuccess("新增成功");
                                 this.diavisible = false;
