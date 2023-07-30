@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.trip.mapper.TravelItineraryMapper">
+  <resultMap id="BaseResultMap" type="com.ruoyi.trip.entity.TravelItinerary">
+    <!--@mbg.generated-->
+    <!--@Table travel_itinerary-->
+    <id column="itinerary_id" jdbcType="INTEGER" property="itineraryId" />
+    <result column="agency_id" jdbcType="INTEGER" property="agencyId" />
+    <result column="team_name" jdbcType="VARCHAR" property="teamName" />
+    <result column="destination" jdbcType="VARCHAR" property="destination" />
+    <result column="trip_start_time" jdbcType="DATE" property="tripStartTime" />
+    <result column="trip_end_time" jdbcType="DATE" property="tripEndTime" />
+    <result column="comment" jdbcType="LONGVARCHAR" property="comment" />
+    <result column="tour_guide_id" jdbcType="INTEGER" property="tourGuideId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    itinerary_id, agency_id, team_name, destination, trip_start_time, trip_end_time, 
+    `comment`, tour_guide_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from travel_itinerary
+    where itinerary_id = #{itineraryId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from travel_itinerary
+    where itinerary_id = #{itineraryId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="itinerary_id" keyProperty="itineraryId" parameterType="com.ruoyi.trip.entity.TravelItinerary" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into travel_itinerary (agency_id, team_name, destination, 
+      trip_start_time, trip_end_time, `comment`, 
+      tour_guide_id)
+    values (#{agencyId,jdbcType=INTEGER}, #{teamName,jdbcType=VARCHAR}, #{destination,jdbcType=VARCHAR}, 
+      #{tripStartTime,jdbcType=DATE}, #{tripEndTime,jdbcType=DATE}, #{comment,jdbcType=LONGVARCHAR}, 
+      #{tourGuideId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" keyColumn="itinerary_id" keyProperty="itineraryId" parameterType="com.ruoyi.trip.entity.TravelItinerary" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into travel_itinerary
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="agencyId != null">
+        agency_id,
+      </if>
+      <if test="teamName != null">
+        team_name,
+      </if>
+      <if test="destination != null">
+        destination,
+      </if>
+      <if test="tripStartTime != null">
+        trip_start_time,
+      </if>
+      <if test="tripEndTime != null">
+        trip_end_time,
+      </if>
+      <if test="comment != null">
+        `comment`,
+      </if>
+      <if test="tourGuideId != null">
+        tour_guide_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="agencyId != null">
+        #{agencyId,jdbcType=INTEGER},
+      </if>
+      <if test="teamName != null">
+        #{teamName,jdbcType=VARCHAR},
+      </if>
+      <if test="destination != null">
+        #{destination,jdbcType=VARCHAR},
+      </if>
+      <if test="tripStartTime != null">
+        #{tripStartTime,jdbcType=DATE},
+      </if>
+      <if test="tripEndTime != null">
+        #{tripEndTime,jdbcType=DATE},
+      </if>
+      <if test="comment != null">
+        #{comment,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="tourGuideId != null">
+        #{tourGuideId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ruoyi.trip.entity.TravelItinerary">
+    <!--@mbg.generated-->
+    update travel_itinerary
+    <set>
+      <if test="agencyId != null">
+        agency_id = #{agencyId,jdbcType=INTEGER},
+      </if>
+      <if test="teamName != null">
+        team_name = #{teamName,jdbcType=VARCHAR},
+      </if>
+      <if test="destination != null">
+        destination = #{destination,jdbcType=VARCHAR},
+      </if>
+      <if test="tripStartTime != null">
+        trip_start_time = #{tripStartTime,jdbcType=DATE},
+      </if>
+      <if test="tripEndTime != null">
+        trip_end_time = #{tripEndTime,jdbcType=DATE},
+      </if>
+      <if test="comment != null">
+        `comment` = #{comment,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="tourGuideId != null">
+        tour_guide_id = #{tourGuideId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where itinerary_id = #{itineraryId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ruoyi.trip.entity.TravelItinerary">
+    <!--@mbg.generated-->
+    update travel_itinerary
+    set agency_id = #{agencyId,jdbcType=INTEGER},
+      team_name = #{teamName,jdbcType=VARCHAR},
+      destination = #{destination,jdbcType=VARCHAR},
+      trip_start_time = #{tripStartTime,jdbcType=DATE},
+      trip_end_time = #{tripEndTime,jdbcType=DATE},
+      `comment` = #{comment,jdbcType=LONGVARCHAR},
+      tour_guide_id = #{tourGuideId,jdbcType=INTEGER}
+    where itinerary_id = #{itineraryId,jdbcType=INTEGER}
+  </update>
+</mapper>
