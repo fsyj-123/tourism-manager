@@ -26,6 +26,11 @@
 
         <dependency>
             <groupId>com.ruoyi</groupId>
+            <artifactId>trip</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.ruoyi</groupId>
             <artifactId>tourism-manager</artifactId>
         </dependency>
 
