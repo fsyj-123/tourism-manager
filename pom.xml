@@ -50,11 +50,6 @@
                 <artifactId>lombok</artifactId>
                 <version>1.18.28</version>
             </dependency>
-            <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-boot-starter</artifactId>
-                <version>3.5.1</version>
-            </dependency>
 
             <!-- 阿里数据库连接池 -->
             <dependency>
@@ -129,12 +124,6 @@
 
             <dependency>
                 <groupId>com.ruoyi</groupId>
-                <artifactId>trip</artifactId>
-                <version>3.8.6</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.ruoyi</groupId>
                 <artifactId>hotel</artifactId>
                 <version>${ruoyi.version}</version>
             </dependency>
@@ -148,11 +137,6 @@
             <artifactId>guide</artifactId>
             <version>${ruoyi.version}</version>
         </dependency>
-            <dependency>
-                <groupId>com.ruoyi</groupId>
-                <artifactId>person</artifactId>
-                <version>${ruoyi.version}</version>
-            </dependency>
 
 
 
