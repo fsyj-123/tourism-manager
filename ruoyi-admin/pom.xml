@@ -41,7 +41,10 @@
             <groupId>com.ruoyi</groupId>
             <artifactId>scenic</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>person</artifactId>
+        </dependency>
 
 
 
