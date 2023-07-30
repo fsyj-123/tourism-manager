@@ -42,6 +42,7 @@ public class TourGuideInfoServiceImpl implements ITourGuideInfoService
     public List<TourGuideInfo> selectTourGuideInfoList(TourGuideInfo tourGuideInfo)
     {
 //        TODO: 将前端的data日期（licenseStartTime、licenseEndTime）转换为string
+        System.out.println("tourGuideInfo: "+tourGuideInfo);
         return tourGuideInfoMapper.selectTourGuideInfoList(tourGuideInfo);
     }
 
