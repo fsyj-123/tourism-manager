@@ -42,7 +42,10 @@
             <artifactId>scenic</artifactId>
         </dependency>
 
-
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>guide</artifactId>
+        </dependency>
 
 
 
