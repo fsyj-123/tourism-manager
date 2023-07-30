@@ -1,19 +1,22 @@
 package com.ruoyi.scenic.mapper;
 
 import java.util.List;
+import java.util.Map;
+
+import com.ruoyi.common.core.domain.IdNamePair;
 import com.ruoyi.scenic.domain.ScenicAreaInfo;
 
 /**
  * 景区管理Mapper接口
- * 
+ *
  * @author ruoyi
  * @date 2023-07-29
  */
-public interface ScenicAreaInfoMapper 
+public interface ScenicAreaInfoMapper
 {
     /**
      * 查询景区管理
-     * 
+     *
      * @param id 景区管理主键
      * @return 景区管理
      */
@@ -21,7 +24,7 @@ public interface ScenicAreaInfoMapper
 
     /**
      * 查询景区管理列表
-     * 
+     *
      * @param scenicAreaInfo 景区管理
      * @return 景区管理集合
      */
@@ -29,7 +32,7 @@ public interface ScenicAreaInfoMapper
 
     /**
      * 新增景区管理
-     * 
+     *
      * @param scenicAreaInfo 景区管理
      * @return 结果
      */
@@ -37,7 +40,7 @@ public interface ScenicAreaInfoMapper
 
     /**
      * 修改景区管理
-     * 
+     *
      * @param scenicAreaInfo 景区管理
      * @return 结果
      */
@@ -45,7 +48,7 @@ public interface ScenicAreaInfoMapper
 
     /**
      * 删除景区管理
-     * 
+     *
      * @param id 景区管理主键
      * @return 结果
      */
@@ -53,9 +56,12 @@ public interface ScenicAreaInfoMapper
 
     /**
      * 批量删除景区管理
-     * 
+     *
      * @param ids 需要删除的数据主键集合
      * @return 结果
      */
     public int deleteScenicAreaInfoByIds(Long[] ids);
+
+
+    List<IdNamePair> selectList();
 }

@@ -51,38 +51,6 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="" prop="createUser">
-        <el-input
-          v-model="queryParams.createUser"
-          placeholder="请输入"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="" prop="modifyTime">
-        <el-input
-          v-model="queryParams.modifyTime"
-          placeholder="请输入"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="" prop="modifyUser">
-        <el-input
-          v-model="queryParams.modifyUser"
-          placeholder="请输入"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="0-删除 " prop="deleted">
-        <el-input
-          v-model="queryParams.deleted"
-          placeholder="请输入0-删除 "
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -148,10 +116,6 @@
         </template>
       </el-table-column>
       <el-table-column label="诚信管理得分" align="center" prop="score" />
-      <el-table-column label="" align="center" prop="createUser" />
-      <el-table-column label="" align="center" prop="modifyTime" />
-      <el-table-column label="" align="center" prop="modifyUser" />
-      <el-table-column label="0-删除 " align="center" prop="deleted" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -171,7 +135,7 @@
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"
@@ -206,18 +170,6 @@
         </el-form-item>
         <el-form-item label="诚信管理得分" prop="score">
           <el-input v-model="form.score" placeholder="请输入诚信管理得分" />
-        </el-form-item>
-        <el-form-item label="" prop="createUser">
-          <el-input v-model="form.createUser" placeholder="请输入" />
-        </el-form-item>
-        <el-form-item label="" prop="modifyTime">
-          <el-input v-model="form.modifyTime" placeholder="请输入" />
-        </el-form-item>
-        <el-form-item label="" prop="modifyUser">
-          <el-input v-model="form.modifyUser" placeholder="请输入" />
-        </el-form-item>
-        <el-form-item label="0-删除 " prop="deleted">
-          <el-input v-model="form.deleted" placeholder="请输入0-删除 " />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -264,10 +216,6 @@ export default {
         scenicSite: null,
         status: null,
         score: null,
-        createUser: null,
-        modifyTime: null,
-        modifyUser: null,
-        deleted: null
       },
       // 表单参数
       form: {},

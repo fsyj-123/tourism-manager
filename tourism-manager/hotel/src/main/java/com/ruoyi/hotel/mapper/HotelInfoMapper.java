@@ -1,8 +1,10 @@
 package com.ruoyi.hotel.mapper;
 
+import com.ruoyi.common.core.domain.IdNamePair;
 import com.ruoyi.hotel.domain.HotelInfo;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 饭店管理Mapper接口
@@ -59,4 +61,7 @@ public interface HotelInfoMapper
      * @return 结果
      */
     public int deleteHotelInfoByIds(Long[] ids);
+
+
+    List<IdNamePair> selectList();
 }
