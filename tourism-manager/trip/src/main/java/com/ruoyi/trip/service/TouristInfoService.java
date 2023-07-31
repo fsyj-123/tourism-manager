@@ -1,6 +1,8 @@
 package com.ruoyi.trip.service;
 
 import java.util.List;
+
+import com.ruoyi.trip.dto.TripDto;
 import com.ruoyi.trip.entity.TouristInfo;
 public interface TouristInfoService{
 
@@ -19,4 +21,5 @@ public interface TouristInfoService{
 
     int batchInsert(List<TouristInfo> list);
 
+    List<TripDto> getList();
 }

@@ -1,5 +1,6 @@
 package com.ruoyi.trip.mapper;
 
+import com.ruoyi.trip.dto.TripDto;
 import com.ruoyi.trip.entity.TouristInfo;
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
@@ -50,4 +51,8 @@ public interface TouristInfoMapper {
     int updateByPrimaryKey(TouristInfo record);
 
     int batchInsert(@Param("list") List<TouristInfo> list);
+
+    List<TripDto> list();
+
+    List<TouristInfo> getByItieraryId(Long id);
 }

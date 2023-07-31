@@ -5,15 +5,15 @@ import com.ruoyi.guide.domain.TourGuideInfo;
 
 /**
  * 登记注册Service接口
- * 
+ *
  * @author wyx
  * @date 2023-07-30
  */
-public interface ITourGuideInfoService 
+public interface ITourGuideInfoService
 {
     /**
      * 查询登记注册
-     * 
+     *
      * @param id 登记注册主键
      * @return 登记注册
      */
@@ -21,7 +21,7 @@ public interface ITourGuideInfoService
 
     /**
      * 查询登记注册列表
-     * 
+     *
      * @param tourGuideInfo 登记注册
      * @return 登记注册集合
      */
@@ -29,7 +29,7 @@ public interface ITourGuideInfoService
 
     /**
      * 新增登记注册
-     * 
+     *
      * @param tourGuideInfo 登记注册
      * @return 结果
      */
@@ -37,7 +37,7 @@ public interface ITourGuideInfoService
 
     /**
      * 修改登记注册
-     * 
+     *
      * @param tourGuideInfo 登记注册
      * @return 结果
      */
@@ -45,7 +45,7 @@ public interface ITourGuideInfoService
 
     /**
      * 批量删除登记注册
-     * 
+     *
      * @param ids 需要删除的登记注册主键集合
      * @return 结果
      */
@@ -53,9 +53,11 @@ public interface ITourGuideInfoService
 
     /**
      * 删除登记注册信息
-     * 
+     *
      * @param id 登记注册主键
      * @return 结果
      */
     public int deleteTourGuideInfoById(Long id);
+
+    TourGuideInfo selectByPhone(String userName);
 }

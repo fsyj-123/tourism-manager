@@ -1,5 +1,6 @@
 package com.ruoyi.trip.service.impl;
 
+import com.ruoyi.trip.dto.TripDto;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.List;
@@ -47,4 +48,12 @@ public class TouristInfoServiceImpl implements TouristInfoService{
         return touristInfoMapper.batchInsert(list);
     }
 
+    @Override
+    public List<TripDto> getList() {
+        List<TripDto> list = touristInfoMapper.list();
+        for (TripDto tripDto : list) {
+            tripDto.setTeamMembers(touristInfoMapper.getByItieraryId(tripDto.getItineraryId()));
+        }
+        return list;
+    }
 }
