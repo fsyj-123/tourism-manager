@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.itinerary.mapper.TravelItineraryMapper">
+    
+    <resultMap type="TravelItinerary" id="TravelItineraryResult">
+        <result property="itineraryId"    column="itinerary_id"    />
+        <result property="agencyId"    column="agency_id"    />
+        <result property="teamName"    column="team_name"    />
+        <result property="destination"    column="destination"    />
+        <result property="tripStartTime"    column="trip_start_time"    />
+        <result property="tripEndTime"    column="trip_end_time"    />
+        <result property="comment"    column="comment"    />
+        <result property="tourGuideId"    column="tour_guide_id"    />
+    </resultMap>
+
+    <sql id="selectTravelItineraryVo">
+        select itinerary_id, agency_id, team_name, destination, trip_start_time, trip_end_time, comment, tour_guide_id from travel_itinerary
+    </sql>
+
+    <select id="selectTravelItineraryList" parameterType="TravelItinerary" resultMap="TravelItineraryResult">
+        <include refid="selectTravelItineraryVo"/>
+        <where>  
+            <if test="agencyId != null "> and agency_id = #{agencyId}</if>
+            <if test="teamName != null  and teamName != ''"> and team_name like concat('%', #{teamName}, '%')</if>
+            <if test="destination != null  and destination != ''"> and destination = #{destination}</if>
+            <if test="tripStartTime != null "> and trip_start_time = #{tripStartTime}</if>
+            <if test="tripEndTime != null "> and trip_end_time = #{tripEndTime}</if>
+            <if test="comment != null  and comment != ''"> and comment = #{comment}</if>
+            <if test="tourGuideId != null "> and tour_guide_id = #{tourGuideId}</if>
+        </where>
+    </select>
+    
+    <select id="selectTravelItineraryByItineraryId" parameterType="Long" resultMap="TravelItineraryResult">
+        <include refid="selectTravelItineraryVo"/>
+        where itinerary_id = #{itineraryId}
+    </select>
+        
+    <insert id="insertTravelItinerary" parameterType="TravelItinerary" useGeneratedKeys="true" keyProperty="itineraryId">
+        insert into travel_itinerary
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="agencyId != null">agency_id,</if>
+            <if test="teamName != null">team_name,</if>
+            <if test="destination != null">destination,</if>
+            <if test="tripStartTime != null">trip_start_time,</if>
+            <if test="tripEndTime != null">trip_end_time,</if>
+            <if test="comment != null">comment,</if>
+            <if test="tourGuideId != null">tour_guide_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="agencyId != null">#{agencyId},</if>
+            <if test="teamName != null">#{teamName},</if>
+            <if test="destination != null">#{destination},</if>
+            <if test="tripStartTime != null">#{tripStartTime},</if>
+            <if test="tripEndTime != null">#{tripEndTime},</if>
+            <if test="comment != null">#{comment},</if>
+            <if test="tourGuideId != null">#{tourGuideId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTravelItinerary" parameterType="TravelItinerary">
+        update travel_itinerary
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="agencyId != null">agency_id = #{agencyId},</if>
+            <if test="teamName != null">team_name = #{teamName},</if>
+            <if test="destination != null">destination = #{destination},</if>
+            <if test="tripStartTime != null">trip_start_time = #{tripStartTime},</if>
+            <if test="tripEndTime != null">trip_end_time = #{tripEndTime},</if>
+            <if test="comment != null">comment = #{comment},</if>
+            <if test="tourGuideId != null">tour_guide_id = #{tourGuideId},</if>
+        </trim>
+        where itinerary_id = #{itineraryId}
+    </update>
+
+    <delete id="deleteTravelItineraryByItineraryId" parameterType="Long">
+        delete from travel_itinerary where itinerary_id = #{itineraryId}
+    </delete>
+
+    <delete id="deleteTravelItineraryByItineraryIds" parameterType="String">
+        delete from travel_itinerary where itinerary_id in 
+        <foreach item="itineraryId" collection="array" open="(" separator="," close=")">
+            #{itineraryId}
+        </foreach>
+    </delete>
+</mapper>
