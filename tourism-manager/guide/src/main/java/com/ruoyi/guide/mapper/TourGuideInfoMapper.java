@@ -22,7 +22,7 @@ public interface TourGuideInfoMapper
     /**
      * 查询登记注册列表
      *
-     * @param tourGuideInfo 登记注册
+     * @param tourGuideInfo 登记tourGuideInfotourGuideInfo
      * @return 登记注册集合
      */
     public List<TourGuideInfo> selectTourGuideInfoList(TourGuideInfo tourGuideInfo);

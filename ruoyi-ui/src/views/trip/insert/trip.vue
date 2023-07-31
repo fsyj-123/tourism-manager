@@ -104,7 +104,7 @@
           </el-table-column>
         </el-table>
 
-        <el-button type="primary" @click="addMemberDialogVisible=true">添加成员</el-button>
+        <el-button type="primary" @click="addMemberDialogVisible=true">添加行程</el-button>
         <!-- 新增团队成员的 Dialog -->
         <el-dialog title="新增团队成员" :visible.sync="addMemberDialogVisible" width="50%">
           <el-form :model="newMember" ref="newMemberForm" label-width="100px">
@@ -123,7 +123,25 @@
       </div>
     </div>
     <div v-if="active===2">
-
+      <div>
+        <img src="@/assets/images/success.png" style="display: block;
+        margin: 0 auto;">
+        <span style="display:block;font-size: 2vw;display: block;
+        text-align: center;">操作成功</span>
+      </div>
+      <div style="width: 200px;margin: 35px auto;">
+        <el-form :model="showData" ref="showDataForm" label-width="100px" align="left">
+          <el-form-item label="团队名称">
+            {{showData.teamName}}
+          </el-form-item>
+          <el-form-item label="导游姓名">
+            {{showData.guideName}}
+          </el-form-item>
+          <el-form-item label="电话号码">
+            {{showData.phone}}
+          </el-form-item>
+        </el-form>
+      </div>
     </div>
 
     <div v-show="active>0">
