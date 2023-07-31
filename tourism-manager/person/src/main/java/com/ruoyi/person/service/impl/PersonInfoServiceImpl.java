@@ -7,6 +7,7 @@ import com.ruoyi.common.core.domain.IdNamePair;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.hotel.mapper.HotelInfoMapper;
 import com.ruoyi.scenic.mapper.ScenicAreaInfoMapper;
+import com.ruoyi.travel_agency.mapper.TravelAgencyInfoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.person.mapper.PersonInfoMapper;
@@ -27,6 +28,8 @@ public class PersonInfoServiceImpl implements IPersonInfoService {
     private PersonInfoMapper personInfoMapper;
 
 
+    @Resource
+    private TravelAgencyInfoMapper travelAgencyInfoMapper;
 
     @Resource
     private HotelInfoMapper hotelInfoMapper;
@@ -134,7 +137,7 @@ public class PersonInfoServiceImpl implements IPersonInfoService {
                 result = scenicAreaInfoMapper.selectList();
                 break;
             case 2:
-//                result =
+                result = travelAgencyInfoMapper.selectList();
             default:
                 break;
         }

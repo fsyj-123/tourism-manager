@@ -23,6 +23,10 @@
             <groupId>com.ruoyi</groupId>
             <artifactId>scenic</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>travel_agency</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

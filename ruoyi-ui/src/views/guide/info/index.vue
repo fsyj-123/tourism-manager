@@ -103,13 +103,6 @@ export default {
         {
           "label": "无",
           "value": ""
-        },
-        {
-          "label": "飞猪旅行社",
-          "value": "飞猪旅行社"
-        }, {
-          "label": "去哪儿旅行社",
-          "value": "去哪儿旅行社"
         }],
       // 查询参数
       queryParams: {
@@ -131,7 +124,11 @@ export default {
   mounted() {
     this.getList()
     getInstitution(2).then(resp => {
-
+      let data = resp.data.map(obj => ({
+        value: obj.id,
+        label: obj.name
+      }))
+      this.agencyOptions = this.agencyOptions.concat(data)
     })
   },
   // mounted() { },
@@ -159,7 +156,7 @@ export default {
       listInfo(this.queryParams).then(response => {
         // 查看返回的data值，设置myForm
         this.guideData = response.rows[0];
-        this.formData = this.guideData
+        // this.formData = this.guideData
 
         this.formData.licenseEffectTime = this.formData.licenseStartTime + " 至 " + this.formData.licenseEndTime
         // this.infoList = response.rows;
@@ -173,11 +170,6 @@ export default {
         if (valid) {
           console.log("valid-formdata", this.formData);
           // 处理时间范围数据
-          let matches = this.formData.licenseEffectTime.match(dateRegex);
-          if (matches && matches.length === 2) {
-            this.formData.licenseStartTime = matches[0];
-            this.formData.licenseEndTime = matches[1];
-          }
           if (this.guideData) {
             console.log("编辑");
             console.log("编辑-formdata", this.formData);
