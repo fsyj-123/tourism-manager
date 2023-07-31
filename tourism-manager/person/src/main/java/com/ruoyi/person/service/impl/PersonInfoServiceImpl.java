@@ -26,6 +26,8 @@ public class PersonInfoServiceImpl implements IPersonInfoService {
     @Autowired
     private PersonInfoMapper personInfoMapper;
 
+
+
     @Resource
     private HotelInfoMapper hotelInfoMapper;
 
@@ -131,6 +133,8 @@ public class PersonInfoServiceImpl implements IPersonInfoService {
             case 1:
                 result = scenicAreaInfoMapper.selectList();
                 break;
+            case 2:
+//                result =
             default:
                 break;
         }
