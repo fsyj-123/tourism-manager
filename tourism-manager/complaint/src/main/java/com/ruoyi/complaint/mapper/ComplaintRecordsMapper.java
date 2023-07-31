@@ -58,4 +58,6 @@ public interface ComplaintRecordsMapper
      * @return 结果
      */
     public int deleteComplaintRecordsByComplaintIds(Long[] complaintIds);
+
+
 }

@@ -15,23 +15,23 @@ public class ComplaintRecords extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
-    /** 投诉ID，主键自增 */
+    /** 序号 */
     private Long complaintId;
 
     /** 投诉内容 */
     @Excel(name = "投诉内容")
     private String complaintContent;
 
-    /** 投诉主体是否处理该投诉 */
-    @Excel(name = "投诉主体是否处理该投诉")
+    /** 处理状态 */
+    @Excel(name = "处理状态")
     private String handlingStatus;
 
     /** 处理结果 */
     @Excel(name = "处理结果")
     private String handlingMsg;
 
-    /** 用于表示投诉关联的企业或个人 */
-    @Excel(name = "用于表示投诉关联的企业或个人")
+    /** 投诉人ID */
+    @Excel(name = "投诉人ID")
     private Long entityId;
 
     /**  */

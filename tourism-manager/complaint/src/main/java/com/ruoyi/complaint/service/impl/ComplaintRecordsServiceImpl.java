@@ -53,7 +53,7 @@ public class ComplaintRecordsServiceImpl implements IComplaintRecordsService
     @Override
     public int insertComplaintRecords(ComplaintRecords complaintRecords)
     {
-        //complaintRecords.setCreateTime(DateUtils.getNowDate());
+        complaintRecords.setCreateTime(DateUtils.getNowDate());
         return complaintRecordsMapper.insertComplaintRecords(complaintRecords);
     }
 
