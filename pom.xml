@@ -124,6 +124,12 @@
                 <artifactId>scenic</artifactId>
                 <version>${ruoyi.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>com.ruoyi</groupId>
+                <artifactId>complaint</artifactId>
+                <version>${ruoyi.version}</version>
+            </dependency>
             <dependency>
                 <groupId>com.ruoyi</groupId>
                 <artifactId>guide</artifactId>

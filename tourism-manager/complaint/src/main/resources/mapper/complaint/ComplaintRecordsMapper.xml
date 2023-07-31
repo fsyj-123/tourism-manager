@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.complaint.mapper.ComplaintRecordsMapper">
+    
+    <resultMap type="ComplaintRecords" id="ComplaintRecordsResult">
+        <result property="complaintId"    column="complaint_id"    />
+        <result property="complaintContent"    column="complaint_content"    />
+        <result property="handlingStatus"    column="handling_status"    />
+        <result property="handlingMsg"    column="handling_msg"    />
+        <result property="entityId"    column="entity_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createUser"    column="create_user"    />
+        <result property="modifyTime"    column="modify_time"    />
+        <result property="modifyUser"    column="modify_user"    />
+        <result property="deleted"    column="deleted"    />
+    </resultMap>
+
+    <sql id="selectComplaintRecordsVo">
+        select complaint_id, complaint_content, handling_status, handling_msg, entity_id, create_time, create_user, modify_time, modify_user, deleted from complaint_records
+    </sql>
+
+    <select id="selectComplaintRecordsList" parameterType="ComplaintRecords" resultMap="ComplaintRecordsResult">
+        <include refid="selectComplaintRecordsVo"/>
+        <where>  
+            <if test="complaintContent != null  and complaintContent != ''"> and complaint_content like concat('%', #{complaintContent}, '%')</if>
+            <if test="handlingStatus != null  and handlingStatus != ''"> and handling_status = #{handlingStatus}</if>
+            <if test="handlingMsg != null  and handlingMsg != ''"> and handling_msg like concat('%', #{handlingMsg}, '%')</if>
+            <if test="entityId != null "> and entity_id = #{entityId}</if>
+        </where>
+    </select>
+    
+    <select id="selectComplaintRecordsByComplaintId" parameterType="Long" resultMap="ComplaintRecordsResult">
+        <include refid="selectComplaintRecordsVo"/>
+        where complaint_id = #{complaintId}
+    </select>
+        
+    <insert id="insertComplaintRecords" parameterType="ComplaintRecords" useGeneratedKeys="true" keyProperty="complaintId">
+        insert into complaint_records
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="complaintContent != null">complaint_content,</if>
+            <if test="handlingStatus != null">handling_status,</if>
+            <if test="handlingMsg != null">handling_msg,</if>
+            <if test="entityId != null">entity_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createUser != null">create_user,</if>
+            <if test="modifyTime != null">modify_time,</if>
+            <if test="modifyUser != null">modify_user,</if>
+            <if test="deleted != null">deleted,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="complaintContent != null">#{complaintContent},</if>
+            <if test="handlingStatus != null">#{handlingStatus},</if>
+            <if test="handlingMsg != null">#{handlingMsg},</if>
+            <if test="entityId != null">#{entityId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="createUser != null">#{createUser},</if>
+            <if test="modifyTime != null">#{modifyTime},</if>
+            <if test="modifyUser != null">#{modifyUser},</if>
+            <if test="deleted != null">#{deleted},</if>
+         </trim>
+    </insert>
+
+    <update id="updateComplaintRecords" parameterType="ComplaintRecords">
+        update complaint_records
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="complaintContent != null">complaint_content = #{complaintContent},</if>
+            <if test="handlingStatus != null">handling_status = #{handlingStatus},</if>
+            <if test="handlingMsg != null">handling_msg = #{handlingMsg},</if>
+            <if test="entityId != null">entity_id = #{entityId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="createUser != null">create_user = #{createUser},</if>
+            <if test="modifyTime != null">modify_time = #{modifyTime},</if>
+            <if test="modifyUser != null">modify_user = #{modifyUser},</if>
+            <if test="deleted != null">deleted = #{deleted},</if>
+        </trim>
+        where complaint_id = #{complaintId}
+    </update>
+
+    <delete id="deleteComplaintRecordsByComplaintId" parameterType="Long">
+        delete from complaint_records where complaint_id = #{complaintId}
+    </delete>
+
+    <delete id="deleteComplaintRecordsByComplaintIds" parameterType="String">
+        delete from complaint_records where complaint_id in 
+        <foreach item="complaintId" collection="array" open="(" separator="," close=")">
+            #{complaintId}
+        </foreach>
+    </delete>
+</mapper>

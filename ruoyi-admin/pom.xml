@@ -51,6 +51,11 @@
             <artifactId>person</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>complaint</artifactId>
+        </dependency>
+
 
         <dependency>
             <groupId>com.ruoyi</groupId>
