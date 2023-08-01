@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="告警ID" prop="warmId">
+      <el-form-item label="告警ID" prop="warmId" >
         <el-input
           v-model="queryParams.warmId"
           placeholder="请输入告警ID"
@@ -17,22 +17,7 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="数量" prop="warmNum">
-        <el-input
-          v-model="queryParams.warmNum"
-          placeholder="请输入数量"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="是否告警状态" prop="status">
-        <el-input
-          v-model="queryParams.status"
-          placeholder="请输入是否告警状态"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
+
       <el-form-item label="创建用户" prop="createBy">
         <el-input
           v-model="queryParams.createBy"
@@ -50,14 +35,7 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="是否删除" prop="deleted">
-        <el-input
-          v-model="queryParams.deleted"
-          placeholder="请输入是否删除"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
+
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -114,8 +92,12 @@
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="告警ID" align="center" prop="warmId" />
       <el-table-column label="告警类型" align="center" prop="warmType" />
-      <el-table-column label="数量" align="center" prop="warmNum" />
-      <el-table-column label="是否告警状态" align="center" prop="status" />
+      <el-table-column label="数值" align="center" prop="warmNum" />
+      <el-table-column label="是否告警状态" align="center" prop="status" >
+        <template slot-scope="scope">
+          <dict-tag :options="dict.type.sys_normal_disable" :value="scope.row.status"/>
+        </template>
+      </el-table-column>
       <el-table-column label="创建用户" align="center" prop="createBy" />
       <el-table-column label="创建时间" align="center" prop="createTime" width="180">
         <template slot-scope="scope">
@@ -129,7 +111,11 @@
         </template>
       </el-table-column>
       <el-table-column label="备注" align="center" prop="remark" />
-      <el-table-column label="是否删除标志" align="center" prop="deleted" />
+      <el-table-column label="是否删除标志" align="center" prop="deleted">
+        <template slot-scope="scope">
+          <dict-tag :options="dict.type.sys_yes_no" :value="scope.row.status"/>
+        </template>
+      </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -164,25 +150,23 @@
         <el-form-item label="告警类型" prop="warmType">
           <el-input v-model="form.warmType" placeholder="请输入告警类型" />
         </el-form-item>
-        <el-form-item label="数量" prop="warmNum">
+        <el-form-item label="数值" prop="warmNum">
           <el-input v-model="form.warmNum" placeholder="请输入数量" />
         </el-form-item>
         <el-form-item label="是否告警状态" prop="status">
           <el-input v-model="form.status" placeholder="请输入是否告警状态" />
-
         </el-form-item>
         <el-form-item label="创建用户" prop="status">
           <el-input v-model="form.createBy" placeholder="请输入创建用户" />
         </el-form-item>
         <el-form-item label="创建时间" prop="status">
-          <el-input v-model="form.createTime" placeholder="请输入创建时间" />
+          <el-date-picker v-model="form.createTime" type="datetime" placeholder="选择日期时间" />
         </el-form-item>
-<!--        <el-date-picker v-model="form.createTime" type="date" placeholder="选择日期"></el-date-picker>-->
         <el-form-item label="更新用户" prop="status">
           <el-input v-model="form.updateBy" placeholder="请输入更新用户" />
         </el-form-item>
         <el-form-item label="更新时间" prop="status">
-          <el-input v-model="form.updateTime" placeholder="请输入更新时间" />
+          <el-date-picker v-model="form.updateTime" type="datetime" placeholder="选择日期时间" />
         </el-form-item>
         <el-form-item label="备注" prop="remark">
           <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" />
@@ -201,9 +185,10 @@
 
 <script>
 import { listManager, getManager, delManager, addManager, updateManager } from "@/api/warming/manager";
-
+import moment from 'moment';
 export default {
   name: "Manager",
+  dicts:['sys_normal_disable','sys_yes_no'],
   data() {
     return {
       // 遮罩层
@@ -324,8 +309,17 @@ export default {
         this.title = "修改告警信息管理";
       });
     },
+
+    formatTimestamps() {
+      // 格式化创建时间
+      this.form.createTime = moment(this.form.createTime).format('YYYY-MM-DD HH:mm:ss');
+
+      // 格式化更新时间
+      this.form.updateTime = moment(this.form.updateTime).format('YYYY-MM-DD HH:mm:ss');
+    },
     /** 提交按钮 */
     submitForm() {
+      this.formatTimestamps();
       this.$refs["form"].validate(valid => {
         if (valid) {
           if (this.form.warmId != null) {
