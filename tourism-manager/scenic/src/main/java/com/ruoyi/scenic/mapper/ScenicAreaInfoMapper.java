@@ -64,4 +64,6 @@ public interface ScenicAreaInfoMapper
 
 
     List<IdNamePair> selectList();
+
+    List<ScenicAreaInfo> list();
 }

@@ -1,12 +1,18 @@
 package com.ruoyi.person.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import com.ruoyi.common.core.domain.IdNamePair;
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.hotel.domain.HotelInfo;
 import com.ruoyi.hotel.mapper.HotelInfoMapper;
+import com.ruoyi.person.dto.InstitutionComplains;
+import com.ruoyi.scenic.domain.ScenicAreaInfo;
 import com.ruoyi.scenic.mapper.ScenicAreaInfoMapper;
+import com.ruoyi.travel_agency.domain.TravelAgencyInfo;
+import com.ruoyi.travel_agency.mapper.TravelAgencyInfoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.person.mapper.PersonInfoMapper;
@@ -27,6 +33,8 @@ public class PersonInfoServiceImpl implements IPersonInfoService {
     private PersonInfoMapper personInfoMapper;
 
 
+    @Resource
+    private TravelAgencyInfoMapper travelAgencyInfoMapper;
 
     @Resource
     private HotelInfoMapper hotelInfoMapper;
@@ -134,10 +142,47 @@ public class PersonInfoServiceImpl implements IPersonInfoService {
                 result = scenicAreaInfoMapper.selectList();
                 break;
             case 2:
-//                result =
+                result = travelAgencyInfoMapper.selectList();
             default:
                 break;
         }
         return result;
+    }
+
+
+    @Override
+    public List<InstitutionComplains> getComplains() {
+        List<TravelAgencyInfo> agencyInfos = travelAgencyInfoMapper.list();
+        List<HotelInfo> hotelInfoList = hotelInfoMapper.list();
+        List<ScenicAreaInfo> areaInfos = scenicAreaInfoMapper.list();
+// 处理 TravelAgencyInfo 列表
+        List<InstitutionComplains> complainsList = new ArrayList<>();
+
+        for (TravelAgencyInfo agencyInfo : agencyInfos) {
+            InstitutionComplains complain = new InstitutionComplains();
+            complain.setName(agencyInfo.getName());
+            complain.setScore(String.valueOf(agencyInfo.getScore()));
+            complain.setType("旅行社");
+            complainsList.add(complain);
+        }
+
+        // 处理 HotelInfo 列表
+        for (HotelInfo hotelInfo : hotelInfoList) {
+            InstitutionComplains complain = new InstitutionComplains();
+            complain.setName(hotelInfo.getName());
+            complain.setScore(String.valueOf(hotelInfo.getScore()));
+            complain.setType("星级酒店");
+            complainsList.add(complain);
+        }
+
+        // 处理 ScenicAreaInfo 列表
+        for (ScenicAreaInfo areaInfo : areaInfos) {
+            InstitutionComplains complain = new InstitutionComplains();
+            complain.setName(areaInfo.getName());
+            complain.setScore(String.valueOf(areaInfo.getScore()));
+            complain.setType("旅游景区");
+            complainsList.add(complain);
+        }
+        return complainsList;
     }
 }

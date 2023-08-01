@@ -6,8 +6,8 @@ import com.ruoyi.complaint.domain.ComplaintRecords;
 /**
  * 游客投诉管理Mapper接口
  * 
- * @author ruoyi
- * @date 2023-07-31
+ * @author fs
+ * @date 2023-08-01
  */
 public interface ComplaintRecordsMapper 
 {
@@ -58,6 +58,4 @@ public interface ComplaintRecordsMapper
      * @return 结果
      */
     public int deleteComplaintRecordsByComplaintIds(Long[] complaintIds);
-
-
 }

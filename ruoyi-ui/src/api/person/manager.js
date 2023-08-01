@@ -48,3 +48,10 @@ export function getInstitution(institutionType) {
     method: 'get'
   })
 }
+
+export function getInstitutionComplains() {
+  return request({
+    url: '/person/manager/institution/complains',
+    method: 'get'
+  })
+}

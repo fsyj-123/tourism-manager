@@ -1,8 +1,8 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="处理状态" prop="handlingStatus">
-        <el-select v-model="queryParams.handlingStatus" placeholder="请选择处理状态" clearable>
+      <el-form-item label="是否处理" prop="handlingStatus">
+        <el-select v-model="queryParams.handlingStatus" placeholder="请选择是否处理" clearable>
           <el-option
             v-for="dict in dict.type.complaint_status"
             :key="dict.value"
@@ -11,10 +11,18 @@
           />
         </el-select>
       </el-form-item>
-      <el-form-item label="投诉人ID" prop="entityId">
+      <el-form-item label="投诉人姓名" prop="username">
         <el-input
-          v-model="queryParams.entityId"
-          placeholder="请输入投诉人ID"
+          v-model="queryParams.username"
+          placeholder="请输入投诉人姓名"
+          clearable
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+      <el-form-item label="投诉人电话" prop="phone">
+        <el-input
+          v-model="queryParams.phone"
+          placeholder="请输入投诉人电话"
           clearable
           @keyup.enter.native="handleQuery"
         />
@@ -75,13 +83,20 @@
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="序号" align="center" prop="complaintId" />
       <el-table-column label="投诉内容" align="center" prop="complaintContent" />
-      <el-table-column label="处理状态" align="center" prop="handlingStatus">
+      <el-table-column label="是否处理" align="center" prop="handlingStatus">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.complaint_status" :value="scope.row.handlingStatus"/>
         </template>
       </el-table-column>
       <el-table-column label="处理结果" align="center" prop="handlingMsg" />
-      <el-table-column label="投诉人ID" align="center" prop="entityId" />
+      <el-table-column label="主体类型" align="center" prop="entityType">
+        <template slot-scope="scope">
+          <dict-tag :options="dict.type.person_department" :value="scope.row.entityType"/>
+        </template>
+      </el-table-column>
+      <el-table-column label="投诉主体" align="center" prop="entityId" />
+      <el-table-column label="投诉人姓名" align="center" prop="username" />
+      <el-table-column label="投诉人电话" align="center" prop="phone" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -101,7 +116,7 @@
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"
@@ -113,23 +128,27 @@
     <!-- 添加或修改游客投诉管理对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="投诉内容" prop="complaintContent">
-          <el-input v-model="form.complaintContent" type="textarea" placeholder="请输入内容" />
+        <el-form-item label="投诉内容">
+          <editor v-model="form.complaintContent" :min-height="192"/>
         </el-form-item>
-        <el-form-item label="处理状态" prop="handlingStatus">
-          <el-radio-group v-model="form.handlingStatus">
-            <el-radio
-              v-for="dict in dict.type.complaint_status"
+        <el-form-item label="主体类型" prop="entityType">
+          <el-select v-model="form.entityType" placeholder="请选择主体类型">
+            <el-option
+              v-for="dict in dict.type.person_department"
               :key="dict.value"
-              :label="dict.value"
-            >{{dict.label}}</el-radio>
-          </el-radio-group>
+              :label="dict.label"
+              :value="parseInt(dict.value)"
+            ></el-option>
+          </el-select>
         </el-form-item>
-        <el-form-item label="处理结果" prop="handlingMsg">
-          <el-input v-model="form.handlingMsg" type="textarea" placeholder="请输入内容" />
+        <el-form-item label="投诉主体" prop="entityId">
+          <el-input v-model="form.entityId" placeholder="请输入投诉主体" />
         </el-form-item>
-        <el-form-item label="投诉人ID" prop="entityId">
-          <el-input v-model="form.entityId" placeholder="请输入投诉人ID" />
+        <el-form-item label="投诉人姓名" prop="username">
+          <el-input v-model="form.username" placeholder="请输入投诉人姓名" />
+        </el-form-item>
+        <el-form-item label="投诉人电话" prop="phone">
+          <el-input v-model="form.phone" placeholder="请输入投诉人电话" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -145,7 +164,7 @@ import { listManager, getManager, delManager, addManager, updateManager } from "
 
 export default {
   name: "Manager",
-  dicts: ['complaint_status'],
+  dicts: ['complaint_status', 'person_department'],
   data() {
     return {
       // 遮罩层
@@ -173,7 +192,10 @@ export default {
         complaintContent: null,
         handlingStatus: null,
         handlingMsg: null,
+        entityType: null,
         entityId: null,
+        username: null,
+        phone: null
       },
       // 表单参数
       form: {},
@@ -207,12 +229,10 @@ export default {
         complaintContent: null,
         handlingStatus: null,
         handlingMsg: null,
+        entityType: null,
         entityId: null,
-        createTime: null,
-        createUser: null,
-        modifyTime: null,
-        modifyUser: null,
-        deleted: null
+        username: null,
+        phone: null
       };
       this.resetForm("form");
     },

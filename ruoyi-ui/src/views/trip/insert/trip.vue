@@ -126,6 +126,9 @@
 
     </div>
 
+    <div v-show="active>0">
+      <el-button style="margin-top: 12px;" @click="active--">上一步</el-button>
+    </div>
     <el-button style="margin-top: 12px;" @click="next">{{nextName}}</el-button>
   </div>
 </template>
@@ -200,12 +203,13 @@ export default {
               alert("服务端错误")
             } else {
               this.active++
+              this.nextName = "添加完成"
             }
           })
           break
         }
         case 2: {
-          this.nextName = "添加完成"
+
         }
       }
     },

@@ -24,8 +24,8 @@ import com.ruoyi.common.core.page.TableDataInfo;
 /**
  * 游客投诉管理Controller
  * 
- * @author ruoyi
- * @date 2023-07-31
+ * @author fs
+ * @date 2023-08-01
  */
 @RestController
 @RequestMapping("/complaint/manager")

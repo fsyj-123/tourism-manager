@@ -6,8 +6,8 @@ import com.ruoyi.complaint.domain.ComplaintRecords;
 /**
  * 游客投诉管理Service接口
  * 
- * @author ruoyi
- * @date 2023-07-31
+ * @author fs
+ * @date 2023-08-01
  */
 public interface IComplaintRecordsService 
 {

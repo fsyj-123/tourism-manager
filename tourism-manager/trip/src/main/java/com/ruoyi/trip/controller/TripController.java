@@ -11,10 +11,8 @@ import com.ruoyi.trip.entity.TravelItinerary;
 import com.ruoyi.trip.service.TouristInfoService;
 import com.ruoyi.trip.service.TravelItineraryService;
 import lombok.Data;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.aspectj.weaver.loadtime.Aj;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.Date;
@@ -45,11 +43,24 @@ public class TripController {
     }
 
 
-        @PostMapping("/list")
+    @PostMapping("/list")
     public AjaxResult insertList(@RequestBody List<TouristInfo> list) {
         touristInfoServiceImpl.batchInsert(list);
         return AjaxResult.success();
     }
 
-
+    /**
+     * itineraryId 行程单ID
+     * teamName 团队名
+     * tripStartTime 行程开始时间
+     * tripEndTime 行程结束时间
+     * name 导游名
+     * phone 导游手机号
+     * comment 转为字符串后的JSON数组，格式如下[{"location":"地点A","startTime":"2023-07-30 08:00:00","endTime":"2023-07-30 12:00:00","remark":"备注1"}]
+     * teamMember 队伍成员，JSON数组，格式为[{name: "成员名", identityId: "手机号"}]
+     */
+    @GetMapping("/list")
+    public AjaxResult getTripList() {
+        return AjaxResult.success(touristInfoServiceImpl.getList());
+    }
 }

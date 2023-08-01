@@ -132,6 +132,11 @@
             </dependency>
             <dependency>
                 <groupId>com.ruoyi</groupId>
+                <artifactId>complaint</artifactId>
+                <version>3.8.6</version>
+            </dependency>
+            <dependency>
+                <groupId>com.ruoyi</groupId>
                 <artifactId>guide</artifactId>
                 <version>${ruoyi.version}</version>
             </dependency>

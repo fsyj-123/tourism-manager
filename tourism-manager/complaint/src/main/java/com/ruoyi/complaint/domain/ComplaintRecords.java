@@ -8,8 +8,8 @@ import com.ruoyi.common.core.domain.BaseEntity;
 /**
  * 游客投诉管理对象 complaint_records
  * 
- * @author ruoyi
- * @date 2023-07-31
+ * @author fs
+ * @date 2023-08-01
  */
 public class ComplaintRecords extends BaseEntity
 {
@@ -22,29 +22,29 @@ public class ComplaintRecords extends BaseEntity
     @Excel(name = "投诉内容")
     private String complaintContent;
 
-    /** 处理状态 */
-    @Excel(name = "处理状态")
+    /** 是否处理 */
+    @Excel(name = "是否处理")
     private String handlingStatus;
 
     /** 处理结果 */
     @Excel(name = "处理结果")
     private String handlingMsg;
 
-    /** 投诉人ID */
-    @Excel(name = "投诉人ID")
+    /** 主体类型 */
+    @Excel(name = "主体类型")
+    private Long entityType;
+
+    /** 投诉主体 */
+    @Excel(name = "投诉主体")
     private Long entityId;
 
-    /**  */
-    private String createUser;
+    /** 投诉人姓名 */
+    @Excel(name = "投诉人姓名")
+    private String username;
 
-    /**  */
-    private Long modifyTime;
-
-    /**  */
-    private String modifyUser;
-
-    /**  */
-    private Long deleted;
+    /** 投诉人电话 */
+    @Excel(name = "投诉人电话")
+    private String phone;
 
     public void setComplaintId(Long complaintId) 
     {
@@ -82,6 +82,15 @@ public class ComplaintRecords extends BaseEntity
     {
         return handlingMsg;
     }
+    public void setEntityType(Long entityType) 
+    {
+        this.entityType = entityType;
+    }
+
+    public Long getEntityType() 
+    {
+        return entityType;
+    }
     public void setEntityId(Long entityId) 
     {
         this.entityId = entityId;
@@ -91,41 +100,23 @@ public class ComplaintRecords extends BaseEntity
     {
         return entityId;
     }
-    public void setCreateUser(String createUser) 
+    public void setUsername(String username) 
     {
-        this.createUser = createUser;
+        this.username = username;
     }
 
-    public String getCreateUser() 
+    public String getUsername() 
     {
-        return createUser;
+        return username;
     }
-    public void setModifyTime(Long modifyTime) 
+    public void setPhone(String phone) 
     {
-        this.modifyTime = modifyTime;
-    }
-
-    public Long getModifyTime() 
-    {
-        return modifyTime;
-    }
-    public void setModifyUser(String modifyUser) 
-    {
-        this.modifyUser = modifyUser;
+        this.phone = phone;
     }
 
-    public String getModifyUser() 
+    public String getPhone() 
     {
-        return modifyUser;
-    }
-    public void setDeleted(Long deleted) 
-    {
-        this.deleted = deleted;
-    }
-
-    public Long getDeleted() 
-    {
-        return deleted;
+        return phone;
     }
 
     @Override
@@ -135,12 +126,10 @@ public class ComplaintRecords extends BaseEntity
             .append("complaintContent", getComplaintContent())
             .append("handlingStatus", getHandlingStatus())
             .append("handlingMsg", getHandlingMsg())
+            .append("entityType", getEntityType())
             .append("entityId", getEntityId())
-            .append("createTime", getCreateTime())
-            .append("createUser", getCreateUser())
-            .append("modifyTime", getModifyTime())
-            .append("modifyUser", getModifyUser())
-            .append("deleted", getDeleted())
+            .append("username", getUsername())
+            .append("phone", getPhone())
             .toString();
     }
 }

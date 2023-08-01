@@ -95,4 +95,9 @@ public class TourGuideInfoServiceImpl implements ITourGuideInfoService
     {
         return tourGuideInfoMapper.deleteTourGuideInfoById(id);
     }
+
+    @Override
+    public TourGuideInfo selectByPhone(String userName) {
+        return tourGuideInfoMapper.selectByPhone(userName);
+    }
 }

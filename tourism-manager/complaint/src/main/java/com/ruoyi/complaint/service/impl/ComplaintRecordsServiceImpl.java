@@ -1,7 +1,6 @@
 package com.ruoyi.complaint.service.impl;
 
 import java.util.List;
-import com.ruoyi.common.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.complaint.mapper.ComplaintRecordsMapper;
@@ -11,8 +10,8 @@ import com.ruoyi.complaint.service.IComplaintRecordsService;
 /**
  * 游客投诉管理Service业务层处理
  * 
- * @author ruoyi
- * @date 2023-07-31
+ * @author fs
+ * @date 2023-08-01
  */
 @Service
 public class ComplaintRecordsServiceImpl implements IComplaintRecordsService 
@@ -53,7 +52,6 @@ public class ComplaintRecordsServiceImpl implements IComplaintRecordsService
     @Override
     public int insertComplaintRecords(ComplaintRecords complaintRecords)
     {
-        complaintRecords.setCreateTime(DateUtils.getNowDate());
         return complaintRecordsMapper.insertComplaintRecords(complaintRecords);
     }
 

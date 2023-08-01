@@ -2,8 +2,12 @@ package com.ruoyi.guide.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import com.ruoyi.common.core.domain.entity.SysUser;
+import com.ruoyi.common.utils.SecurityUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -68,6 +72,17 @@ public class TourGuideInfoController extends BaseController
     {
         return success(tourGuideInfoService.selectTourGuideInfoById(id));
     }
+
+    /**
+     * 获取登记注册详细信息
+     */
+    @GetMapping(value = "/phone")
+    public AjaxResult getInfo()
+    {
+        SysUser user = SecurityUtils.getLoginUser().getUser();
+        return success(tourGuideInfoService.selectByPhone(user.getUserName()));
+    }
+
 
     /**
      * 新增登记注册

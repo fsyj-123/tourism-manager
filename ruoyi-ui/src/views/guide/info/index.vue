@@ -1,237 +1,167 @@
 <template>
-  <div class="app-container">
-    <el-form ref="myForm" :model="formData" size="medium" label-width="100px">
-      <el-form-item label="姓名" prop="name">
-        {{ formData.name }}
+  <div>
+    <!-- 展示信息 -->
+    <el-form :model="tourGuideInfo" v-if="!editMode" label-width="100px">
+      <el-form-item label="姓名">
+        <el-input v-model="tourGuideInfo.name" disabled></el-input>
       </el-form-item>
-      <el-form-item label="电话号码" prop="phone">
-        {{ formData.phone }}
+      <el-form-item label="电话号码">
+        <el-input v-model="tourGuideInfo.phone" disabled></el-input>
       </el-form-item>
-      <el-form-item label="身份证号" prop="identityId">
-        {{ formData.identityId }}
+      <el-form-item label="身份证">
+        <el-input v-model="tourGuideInfo.identityId" disabled></el-input>
       </el-form-item>
-      <el-form-item label="所属旅行社" prop="agency">
-        {{ formData.agency }}
+      <el-form-item label="导游号">
+        <el-input v-model="tourGuideInfo.licenseNumber" disabled></el-input>
       </el-form-item>
-      <el-form-item label="导游证号" prop="licenseNumber">
-        {{ formData.licenseNumber }}
+      <el-form-item label="有效日期">
+        <span>{{ tourGuideInfo.licenseStartTime }} 至 {{ tourGuideInfo.licenseEndTime }}</span>
       </el-form-item>
-      <el-form-item label="有效日期" prop="licenseEffectTime">
-        {{ formData.licenseEffectTime }}
+      <el-form-item label="导游证">
+        <img :src="base64Image" v-if="base64Image" style="max-width: 200px; max-height: 200px;"/>
+        <span v-else>无导游证图片</span>
       </el-form-item>
-      <el-form-item label="导游证上传" prop="field110" required>
-        <img src="">
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="open">编辑</el-button>
-      </el-form-item>
+      <el-button type="primary" @click="editMode = true">编辑</el-button>
     </el-form>
 
-    <!-- 表单 -->
-    <el-dialog :visible.sync="diavisible" title="编辑信息" @close="onClose">
-      <el-form ref="elForm" :model="formData" :rules="rules" size="medium" label-width="100px">
-        <el-form-item label="姓名" prop="name">
-          <el-input v-model="formData.name" placeholder="请输入姓名" style="width: '100%'"></el-input>
+    <!-- 编辑模态窗口 -->
+    <el-dialog title="编辑信息" :visible.sync="editMode" width="50%">
+      <el-form :model="tourGuideInfo" ref="editForm" label-width="100px">
+        <el-form-item label="姓名">
+          <el-input v-model="tourGuideInfo.name"></el-input>
         </el-form-item>
-        <el-form-item label="电话号码" prop="phone">
-          <el-input v-model="formData.phone" placeholder="请输入电话号码" style="width: '100%'">
-          </el-input>
+        <el-form-item label="电话号码">
+          <el-input v-model="tourGuideInfo.phone"></el-input>
         </el-form-item>
-        <el-form-item label="身份证号" prop="identityId">
-          <el-input v-model="formData.identityId" placeholder="请输入身份证号" style="width: '100%'">
-          </el-input>
+        <el-form-item label="身份证">
+          <el-input v-model="tourGuideInfo.identityId"></el-input>
         </el-form-item>
-        <el-form-item label="所属旅行社" prop="agency">
-          <el-select v-model="formData.agency" placeholder="请选择所属旅行社" style="width: '100%'">
-            <el-option v-for="(item, index) in agencyOptions" :key="index" :label="item.label"
-                       :value="item.value" :disabled="item.disabled"></el-option>
-          </el-select>
+        <el-form-item label="导游号">
+          <el-input v-model="tourGuideInfo.licenseNumber"></el-input>
         </el-form-item>
-        <el-form-item label="导游证号" prop="licenseNumber">
-          <el-input v-model="formData.licenseNumber" placeholder="请输入导游证号" style="width: '100%'"></el-input>
+        <el-form-item label="有效日期">
+          <el-date-picker
+            v-model="tourGuideInfo.licenseStartTime"
+            type="date"
+            value-format="yyyy-MM-dd"
+            placeholder="开始日期"
+          ></el-date-picker>
+          <span> 至 </span>
+          <el-date-picker
+            v-model="tourGuideInfo.licenseEndTime"
+            type="date"
+            value-format="yyyy-MM-dd"
+            placeholder="截止日期"
+          ></el-date-picker>
         </el-form-item>
-        <el-form-item label="有效日期" prop="licenseEffectTime">
-          <el-date-picker type="daterange" v-model="formData.licenseEffectTime" format="yyyy-MM-dd"
-                          value-format="yyyy-MM-dd" style="width: '100%'" start-placeholder="开始日期"
-                          end-placeholder="结束日期"
-                          range-separator="至"></el-date-picker>
-        </el-form-item>
-        <el-form-item label="导游证上传" prop="field110">
-          <el-upload ref="field110" :file-list="field110fileList" :action="field110Action"
-                     :before-upload="field110BeforeUpload" list-type="picture" accept="image/*">
-            <el-button size="small" type="primary" icon="el-icon-upload">点击上传</el-button>
+        <el-form-item label="导游证">
+          <el-upload
+            class="avatar-uploader"
+            action="#"
+            :show-file-list="false"
+            :on-change="handleAvatarChange"
+            :before-upload="beforeAvatarUpload"
+          >
+            <img :src="base64Image" v-if="base64Image" style="max-width: 200px; max-height: 200px;"/>
+            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </el-form-item>
       </el-form>
-      <div slot="footer">
-        <el-button @click="close">取消</el-button>
-        <el-button type="primary" @click="handleConfirm">确定</el-button>
-      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="cancelEdit">取消</el-button>
+        <el-button type="primary" @click="submitEdit">提交</el-button>
+      </span>
     </el-dialog>
-
-
   </div>
 </template>
-<script>
-import {listInfo, getInfo, delInfo, addInfo, updateInfo} from "@/api/guide/info";
-import {getInstitution} from '@/api/person/manager'
 
-import Cookies from "js-cookie";
-const dateRegex = /\d{4}-\d{2}-\d{2}/g;
+<script>
+import {getGuideInfo, updateInfo} from "@/api/guide/info";
+import {getInstitution} from "@/api/person/manager";
+
 export default {
-  inheritAttrs: false,
-  components: {},
-  props: [],
   data() {
     return {
-      diavisible: false,
-      formData: {
-        name: '',
-        phone: '',
-        identityId: '',
-        agency: '',
-        licenseNumber: '',
-        licenseEffectTime: '',
-        field110: '',
-        licenseStartTime: '',
-        licenseEndTime: '',
-      },
-      guideData: {},
-      field110Action: 'https://jsonplaceholder.typicode.com/posts/',
-      field110fileList: [],
-      agencyOptions: [
-        {
-          "label": "无",
-          "value": ""
-        },
-        {
-          "label": "飞猪旅行社",
-          "value": "飞猪旅行社"
-        }, {
-          "label": "去哪儿旅行社",
-          "value": "去哪儿旅行社"
-        }],
-      // 查询参数
-      queryParams: {
-        pageNum: 1,
-        pageSize: 10,
-        name: '',
-        phone: '',
-        identityId: '',
+      editMode: false, // 控制编辑模态窗口的显示与隐藏
+      tourGuideInfo: {
+        // 从后端获取的信息
+        name: 'John Doe',
+        phone: '1234567890',
+        identityId: '123456789012345678',
+        licenseNumber: 'Guide123',
+        licenseStartTime: '2023-07-01',
         agencyId: '',
+        licenseEndTime: '2023-12-31',
         qualify: '',
-        licenseNumber: '',
-        licenseStartTime: '',
-        licenseEndTime: '',
       },
-    }
+      agencyName: '',
+      agencyOptions: [{
+        label: '无',
+        value: ''
+      }], // 存储旅行社的下拉选项
+      base64Image: '', // 存储Base64编码图片
+    };
   },
-  computed: {},
-  watch: {},
   mounted() {
-    this.getList()
+    // 模拟从后端获取的旅行社列表数据，此处假设后端返回了JSON数组，每个对象包含value和label
     getInstitution(2).then(resp => {
-
+      let data = resp.data.map(item => ({
+        label: item.name,
+        value: item.id
+      }))
+      this.agencyOptions = this.agencyOptions.concat(data)
     })
+    getGuideInfo().then(resp => {
+      this.tourGuideInfo = {...resp.data}
+      this.agencyName = this.getAgencyNameById(this.tourGuideInfo.agencyId)
+      this.base64Image = this.tourGuideInfo.qualify
+    })
+
   },
-  // mounted() { },
   methods: {
-    onOpen() {
-      this.$refs['elForm'].resetFields()
+    cancelEdit() {
+      // 取消编辑
+      this.editMode = false;
     },
-    open() {
-      this.getList()
-      this.reset()
-      this.diavisible = true
+    submitEdit() {
+      // 编辑模态窗口关闭
+      this.editMode = false;
+      this.tourGuideInfo.qualify = this.base64Image;
+      updateInfo(this.tourGuideInfo)
     },
-    onClose() {
-      this.$refs['elForm'].resetFields()
-    },
-    close() {
-      this.diavisible = false
-    },
-    // 获取导游信息
-    getList() {
-      this.loading = true;
-      const username = Cookies.get("username");//用户名=电话
-      this.queryParams.phone = username;
-      // 从存储中拿取账号（电话号码），作为参数传入listInfo
-      listInfo(this.queryParams).then(response => {
-        // 查看返回的data值，设置myForm
-        this.guideData = response.rows[0];
-        this.formData = this.guideData
-
-        this.formData.licenseEffectTime = this.formData.licenseStartTime + " 至 " + this.formData.licenseEndTime
-        // this.infoList = response.rows;
-        // this.total = response.total;
-        this.loading = false;
-      });
-    },
-    // 提交表单
-    handleConfirm() {
-      this.$refs['elForm'].validate(valid => {
-        if (valid) {
-          console.log("valid-formdata", this.formData);
-          // 处理时间范围数据
-          let matches = this.formData.licenseEffectTime.match(dateRegex);
-          if (matches && matches.length === 2) {
-            this.formData.licenseStartTime = matches[0];
-            this.formData.licenseEndTime = matches[1];
-          }
-          if (this.guideData) {
-            console.log("编辑");
-            console.log("编辑-formdata", this.formData);
-            updateInfo(this.formData).then(response => {
-              this.$modal.msgSuccess("编辑成功");
-              this.close()
-              // this.diavisible = false;
-              this.getList();
-            })
-          } else {
-            console.log("新增");
-            console.log("新增-formdata", this.formData);
-            addInfo(this.formData).then(response => {
-              this.$modal.msgSuccess("新增成功");
-              this.diavisible = false;
-              this.getList();
-            });
-          }
-        }
-      })
-    },
-    // 上传文件
-    field110BeforeUpload(file) {
-      let isRightSize = file.size / 1024 / 1024 < 2
-      if (!isRightSize) {
-        this.$message.error('文件大小超过 2MB')
+    // 图片上传前处理
+    beforeAvatarUpload(file) {
+      const isJPG = file.type === 'image/jpeg';
+      const isPNG = file.type === 'image/png';
+      const isGIF = file.type === 'image/gif';
+      if (!(isJPG || isPNG || isGIF)) {
+        this.$message.error('图片格式只能是 JPG/PNG/GIF 格式!');
+        return false;
       }
-      let isAccept = new RegExp('image/*').test(file.type)
-      if (!isAccept) {
-        this.$message.error('应该选择image/*类型的文件')
+      const isLt2M = file.size / 1024 / 1024 < 2;
+      if (!isLt2M) {
+        this.$message.error('上传图片大小不能超过 2MB!');
+        return false;
       }
-      return isRightSize && isAccept
+      return true;
     },
-    // 表单重置
-    reset() {
-      this.formData = {
-        name: '',
-        phone: '',
-        identityId: '',
-        agencyId: '',
-        qualify: '',
-        licenseNumber: '',
-        licenseStartTime: '',
-        lecenseEndTime: '',
+    // 图片上传成功处理
+    handleAvatarChange(file) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file.raw);
+      reader.onload = () => {
+        this.base64Image = reader.result;
       };
-      this.resetForm("formData");
     },
-  }
-}
-
+// 根据旅行社ID获取旅行社名字
+    getAgencyNameById(agencyId) {
+      const selectedAgency = this.agencyOptions.find((agency) => agency.value === agencyId);
+      return selectedAgency ? selectedAgency.label : '';
+    },
+  },
+};
 </script>
 
 <style>
-.el-upload__tip {
-  line-height: 1.2;
-}
+/* 样式可以根据实际情况进行调整 */
 </style>

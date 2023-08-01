@@ -11,7 +11,7 @@ export function listInfo(query) {
 
 
 // 查询登记注册详细
-export function getInfo(id) {
+export function getInfo() {
   return request({
     url: '/guide/info/' + id,
     method: 'get'
@@ -49,5 +49,11 @@ export function delInfo(id) {
   return request({
     url: '/guide/info/' + id,
     method: 'delete'
+  })
+}
+export function getGuideInfo() {
+  return request({
+    url: '/guide/info/phone',
+    method: 'get'
   })
 }

@@ -10,8 +10,15 @@ export function insertTrip(data) {
 
 export function insertToursim(data) {
   return request({
-    url: 'trip/manage/list',
+    url: '/trip/manage/list',
     data: data,
     method: "post"
+  })
+}
+
+export function getList() {
+  return request({
+    url: '/trip/manage/list',
+    method: 'get'
   })
 }

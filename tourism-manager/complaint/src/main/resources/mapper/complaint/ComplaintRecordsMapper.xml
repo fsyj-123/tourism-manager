@@ -9,16 +9,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="complaintContent"    column="complaint_content"    />
         <result property="handlingStatus"    column="handling_status"    />
         <result property="handlingMsg"    column="handling_msg"    />
+        <result property="entityType"    column="entity_type"    />
         <result property="entityId"    column="entity_id"    />
-        <result property="createTime"    column="create_time"    />
-        <result property="createUser"    column="create_user"    />
-        <result property="modifyTime"    column="modify_time"    />
-        <result property="modifyUser"    column="modify_user"    />
-        <result property="deleted"    column="deleted"    />
+        <result property="username"    column="username"    />
+        <result property="phone"    column="phone"    />
     </resultMap>
 
     <sql id="selectComplaintRecordsVo">
-        select complaint_id, complaint_content, handling_status, handling_msg, entity_id, create_time, create_user, modify_time, modify_user, deleted from complaint_records
+        select complaint_id, complaint_content, handling_status, handling_msg, entity_type, entity_id, username, phone from complaint_records
     </sql>
 
     <select id="selectComplaintRecordsList" parameterType="ComplaintRecords" resultMap="ComplaintRecordsResult">
@@ -27,11 +25,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="complaintContent != null  and complaintContent != ''"> and complaint_content like concat('%', #{complaintContent}, '%')</if>
             <if test="handlingStatus != null  and handlingStatus != ''"> and handling_status = #{handlingStatus}</if>
             <if test="handlingMsg != null  and handlingMsg != ''"> and handling_msg like concat('%', #{handlingMsg}, '%')</if>
+            <if test="entityType != null "> and entity_type = #{entityType}</if>
             <if test="entityId != null "> and entity_id = #{entityId}</if>
+            <if test="username != null  and username != ''"> and username like concat('%', #{username}, '%')</if>
+            <if test="phone != null  and phone != ''"> and phone = #{phone}</if>
         </where>
     </select>
-
-
     
     <select id="selectComplaintRecordsByComplaintId" parameterType="Long" resultMap="ComplaintRecordsResult">
         <include refid="selectComplaintRecordsVo"/>
@@ -44,23 +43,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="complaintContent != null">complaint_content,</if>
             <if test="handlingStatus != null">handling_status,</if>
             <if test="handlingMsg != null">handling_msg,</if>
+            <if test="entityType != null">entity_type,</if>
             <if test="entityId != null">entity_id,</if>
-            <if test="createTime != null">create_time,</if>
-            <if test="createUser != null">create_user,</if>
-            <if test="modifyTime != null">modify_time,</if>
-            <if test="modifyUser != null">modify_user,</if>
-            <if test="deleted != null">deleted,</if>
+            <if test="username != null">username,</if>
+            <if test="phone != null">phone,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="complaintContent != null">#{complaintContent},</if>
             <if test="handlingStatus != null">#{handlingStatus},</if>
             <if test="handlingMsg != null">#{handlingMsg},</if>
+            <if test="entityType != null">#{entityType},</if>
             <if test="entityId != null">#{entityId},</if>
-            <if test="createTime != null">#{createTime},</if>
-            <if test="createUser != null">#{createUser},</if>
-            <if test="modifyTime != null">#{modifyTime},</if>
-            <if test="modifyUser != null">#{modifyUser},</if>
-            <if test="deleted != null">#{deleted},</if>
+            <if test="username != null">#{username},</if>
+            <if test="phone != null">#{phone},</if>
          </trim>
     </insert>
 
@@ -70,12 +65,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="complaintContent != null">complaint_content = #{complaintContent},</if>
             <if test="handlingStatus != null">handling_status = #{handlingStatus},</if>
             <if test="handlingMsg != null">handling_msg = #{handlingMsg},</if>
+            <if test="entityType != null">entity_type = #{entityType},</if>
             <if test="entityId != null">entity_id = #{entityId},</if>
-            <if test="createTime != null">create_time = #{createTime},</if>
-            <if test="createUser != null">create_user = #{createUser},</if>
-            <if test="modifyTime != null">modify_time = #{modifyTime},</if>
-            <if test="modifyUser != null">modify_user = #{modifyUser},</if>
-            <if test="deleted != null">deleted = #{deleted},</if>
+            <if test="username != null">username = #{username},</if>
+            <if test="phone != null">phone = #{phone},</if>
         </trim>
         where complaint_id = #{complaintId}
     </update>
