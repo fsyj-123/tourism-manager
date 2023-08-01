@@ -22,3 +22,10 @@ export function getList() {
     method: 'get'
   })
 }
+
+export function getListTrue() {
+  return request({
+    url: '/trip/manage/list/true',
+    method: 'get'
+  })
+}

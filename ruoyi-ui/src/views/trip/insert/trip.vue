@@ -1,9 +1,9 @@
 <template>
   <div>
     <el-steps :active="active" finish-status="success">
-      <el-step title="步骤 1"></el-step>
-      <el-step title="步骤 2"></el-step>
-      <el-step title="步骤 3"></el-step>
+      <el-step title="填写行程信息"></el-step>
+      <el-step title="添加团队成员"></el-step>
+      <el-step title="完成"></el-step>
     </el-steps>
 
     <div v-if="active===0">
@@ -95,7 +95,7 @@
         <!-- 团队成员表格 -->
         <el-table :data="teamData.members" style="width: 100%">
           <el-table-column label="姓名" prop="name"></el-table-column>
-          <el-table-column label="手机号" prop="phone"></el-table-column>
+          <el-table-column label="手机号" prop="identityId"></el-table-column>
           <el-table-column label="操作">
             <template slot-scope="scope">
               <el-button type="text" @click="handleMemberEdit(scope.$index)">修改</el-button>
@@ -123,7 +123,25 @@
       </div>
     </div>
     <div v-if="active===2">
-
+      <div>
+        <img src="@/assets/images/success.png" style="display: block;
+        margin: 0 auto;">
+        <span style="display:block;font-size: 2vw;display: block;
+        text-align: center;">操作成功</span>
+      </div>
+      <div style="width: 200px;margin: 35px auto;">
+        <el-form :model="showData" ref="showDataForm" label-width="100px" align="left">
+          <el-form-item label="团队名称">
+            {{formData.teamName}}
+          </el-form-item>
+          <el-form-item label="导游姓名">
+            {{showData.name}}
+          </el-form-item>
+          <el-form-item label="电话号码">
+            {{showData.phone}}
+          </el-form-item>
+        </el-form>
+      </div>
     </div>
 
     <div v-show="active>0">
@@ -136,6 +154,7 @@
 <script>
 
 import {insertTrip, insertToursim} from "@/api/trip/manage";
+import {getGuideInfo} from "@/api/guide/info";
 
 export default {
   data() {
@@ -148,23 +167,14 @@ export default {
       nextName: '下一步',
       active: 0,
       scheduleData: [
-        {
-          location: '地点A',
-          startTime: '2023-07-30 08:00:00',
-          endTime: '2023-07-30 12:00:00',
-          remark: '备注1',
-        }
+
       ], // 存储行程表格数据
       dialogVisible: false, // 控制 Dialog 的显示与隐藏
       dialogTitle: '', // Dialog 的标题，用于区分添加和修改功能
       currentSchedule: {}, // 当前正在编辑的行程数据
-
-
       teamData: {
         memberCount: 0,
         members: [
-          {name: '张三', identityId: '13812345678'},
-          {name: '李四', identityId: '13987654321'},
         ],
       },
       addMemberDialogVisible: false,
@@ -172,7 +182,11 @@ export default {
         name: '',
         phone: '',
       },
-      travelId: 0
+      travelId: 0,
+      showData: {
+        name: '',
+        phone: '',
+      }
     };
   },
   created() {
@@ -205,6 +219,9 @@ export default {
               this.active++
               this.nextName = "添加完成"
             }
+          })
+          getGuideInfo().then(resp => {
+            this.showData = {...resp.data}
           })
           break
         }
@@ -270,7 +287,7 @@ export default {
       // 处理新增团队成员操作
       this.teamData.members.push({
         name: this.newMember.name,
-        phone: this.newMember.phone,
+        identityId: this.newMember.identityId,
       });
       this.addMemberDialogVisible = false;
       this.updateMemberCount();

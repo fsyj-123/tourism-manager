@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import {getList} from "@/api/trip/manage";
+import {getListTrue} from "@/api/trip/manage";
 
 export default {
   data() {
@@ -76,7 +76,7 @@ export default {
     };
   },
   created() {
-    getList().then(resp => {
+    getListTrue().then(resp => {
       this.itineraryList = resp.data
       this.showList = this.itineraryList.slice(0, this.pageSize)
     })
