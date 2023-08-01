@@ -64,4 +64,6 @@ public interface HotelInfoMapper
 
 
     List<IdNamePair> selectList();
+
+    List<HotelInfo> list();
 }

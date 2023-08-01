@@ -180,4 +180,8 @@
         select id, name
         from hotel_info
     </select>
+    <select id="list" resultType="com.ruoyi.hotel.domain.HotelInfo">
+        select *
+        from hotel_info
+    </select>
 </mapper>

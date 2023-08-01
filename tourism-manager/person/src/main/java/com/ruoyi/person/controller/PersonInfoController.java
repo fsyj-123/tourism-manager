@@ -108,4 +108,9 @@ public class PersonInfoController extends BaseController
     public AjaxResult getInstitutions(@PathVariable Integer institutionType) {
         return AjaxResult.success(personInfoService.getInstitutions(institutionType));
     }
+
+    @GetMapping("/institution/complains")
+    public AjaxResult getComplains() {
+        return success(personInfoService.getComplains());
+    }
 }

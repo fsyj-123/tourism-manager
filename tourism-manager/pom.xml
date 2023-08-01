@@ -17,6 +17,7 @@
         <module>guide</module>
         <module>person</module>
         <module>trip</module>
+        <module>complaint</module>
     </modules>
 
     <properties>

@@ -166,4 +166,7 @@
         select id, name
         from travel_agency_info;
     </select>
+    <select id="list" resultType="com.ruoyi.travel_agency.domain.TravelAgencyInfo">
+    select * from travel_agency_info
+    </select>
 </mapper>

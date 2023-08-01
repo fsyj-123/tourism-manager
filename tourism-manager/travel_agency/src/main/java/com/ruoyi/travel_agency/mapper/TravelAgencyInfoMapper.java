@@ -64,4 +64,6 @@ public interface TravelAgencyInfoMapper
     public int deleteTravelAgencyInfoByIds(Long[] ids);
 
     List<IdNamePair> selectList();
+
+    List<TravelAgencyInfo> list();
 }

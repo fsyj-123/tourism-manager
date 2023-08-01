@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.ruoyi.common.core.domain.IdNamePair;
 import com.ruoyi.person.domain.PersonInfo;
+import com.ruoyi.person.dto.InstitutionComplains;
 
 /**
  * 人员管理Service接口
@@ -63,6 +64,8 @@ public interface IPersonInfoService
     public int deletePersonInfoByPersonId(Long personId);
 
     List<IdNamePair> getInstitutions(Integer institutionType);
+
+    List<InstitutionComplains> getComplains();
 }
 
 
