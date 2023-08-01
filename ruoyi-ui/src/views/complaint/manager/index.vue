@@ -42,7 +42,8 @@
           size="mini"
           @click="handleAdd"
           v-hasPermi="['complaint:manager:add']"
-        >新增</el-button>
+        >新增
+        </el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -53,7 +54,8 @@
           :disabled="single"
           @click="handleUpdate"
           v-hasPermi="['complaint:manager:edit']"
-        >修改</el-button>
+        >修改
+        </el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -64,7 +66,8 @@
           :disabled="multiple"
           @click="handleDelete"
           v-hasPermi="['complaint:manager:remove']"
-        >删除</el-button>
+        >删除
+        </el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -74,29 +77,30 @@
           size="mini"
           @click="handleExport"
           v-hasPermi="['complaint:manager:export']"
-        >导出</el-button>
+        >导出
+        </el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
     <el-table v-loading="loading" :data="managerList" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="序号" align="center" prop="complaintId" />
-      <el-table-column label="投诉内容" align="center" prop="complaintContent" />
+      <el-table-column type="selection" width="55" align="center"/>
+      <el-table-column label="序号" align="center" prop="complaintId"/>
+      <el-table-column label="投诉内容" align="center" prop="complaintContent"/>
       <el-table-column label="是否处理" align="center" prop="handlingStatus">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.complaint_status" :value="scope.row.handlingStatus"/>
         </template>
       </el-table-column>
-      <el-table-column label="处理结果" align="center" prop="handlingMsg" />
+      <el-table-column label="处理结果" align="center" prop="handlingMsg"/>
       <el-table-column label="主体类型" align="center" prop="entityType">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.person_department" :value="scope.row.entityType"/>
         </template>
       </el-table-column>
-      <el-table-column label="投诉主体" align="center" prop="entityId" />
-      <el-table-column label="投诉人姓名" align="center" prop="username" />
-      <el-table-column label="投诉人电话" align="center" prop="phone" />
+      <el-table-column label="投诉主体" align="center" prop="entityId"/>
+      <el-table-column label="投诉人姓名" align="center" prop="username"/>
+      <el-table-column label="投诉人电话" align="center" prop="phone"/>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -105,14 +109,16 @@
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
             v-hasPermi="['complaint:manager:edit']"
-          >修改</el-button>
+          >修改
+          </el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
             v-hasPermi="['complaint:manager:remove']"
-          >删除</el-button>
+          >删除
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -132,7 +138,7 @@
           <editor v-model="form.complaintContent" :min-height="192"/>
         </el-form-item>
         <el-form-item label="主体类型" prop="entityType">
-          <el-select v-model="form.entityType" placeholder="请选择主体类型">
+          <el-select v-model="form.entityType" placeholder="请选择主体类型" @change="handleChange">
             <el-option
               v-for="dict in dict.type.person_department"
               :key="dict.value"
@@ -142,13 +148,21 @@
           </el-select>
         </el-form-item>
         <el-form-item label="投诉主体" prop="entityId">
-          <el-input v-model="form.entityId" placeholder="请输入投诉主体" />
+          <!--          <el-input v-model="form.entityId" placeholder="请输入投诉主体"/>-->
+          <el-select v-model="form.entityId" placeholder="请选择投诉主体">
+            <el-option
+              v-for="option in selectOptions"
+              :key="option.id"
+              :label="option.name"
+              :value="parseInt(option.id)"
+            ></el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="投诉人姓名" prop="username">
-          <el-input v-model="form.username" placeholder="请输入投诉人姓名" />
+          <el-input v-model="form.username" placeholder="请输入投诉人姓名"/>
         </el-form-item>
         <el-form-item label="投诉人电话" prop="phone">
-          <el-input v-model="form.phone" placeholder="请输入投诉人电话" />
+          <el-input v-model="form.phone" placeholder="请输入投诉人电话"/>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -160,13 +174,17 @@
 </template>
 
 <script>
-import { listManager, getManager, delManager, addManager, updateManager } from "@/api/complaint/manager";
+import {listManager, getManager, delManager, addManager, updateManager} from "@/api/complaint/manager";
+import {getInstitution} from "@/api/person/manager";
 
 export default {
   name: "Manager",
   dicts: ['complaint_status', 'person_department'],
   data() {
     return {
+      types: [[],[],[]],
+      // 待投诉的主体
+      selectOptions: [],
       // 遮罩层
       loading: true,
       // 选中数组
@@ -200,23 +218,59 @@ export default {
       // 表单参数
       form: {},
       // 表单校验
-      rules: {
-      }
+      rules: {}
     };
   },
   created() {
     this.getList();
+    getInstitution(0).then(resp => {
+      this.types[0] = []
+      resp.data.forEach(item => {
+        this.types[0].push(item)
+      })
+    })
+    getInstitution(1).then(resp => {
+      this.types[1] = []
+      resp.data.forEach(item => {
+        this.types[1].push(item)
+      })
+    })
+    getInstitution(2).then(resp => {
+      this.types[2] = []
+      resp.data.forEach(item => {
+        this.types[2].push(item)
+      })
+    })
   },
   methods: {
+    handleChange(value) {
+      getInstitution(value).then(resp => {
+        this.selectOptions = resp.data
+        console.log("options", this.selectOptions)
+      })
+    },
     /** 查询游客投诉管理列表 */
     getList() {
       this.loading = true;
       listManager(this.queryParams).then(response => {
+        response.rows.forEach(item => {
+          // item.entityId = this.getInstitutionWithParam(item.entityType, item.entityId)
+          getInstitution(item.entityType).then(resp => {
+            for (let ele of resp.data) {
+              if (ele.id == item.entityId) {
+                item.entityId = ele.name
+              }
+            }
+          })
+        })
+        console.log(response.rows)
         this.managerList = response.rows;
+
         this.total = response.total;
         this.loading = false;
       });
     },
+
     // 取消按钮
     cancel() {
       this.open = false;
@@ -249,7 +303,7 @@ export default {
     // 多选框选中数据
     handleSelectionChange(selection) {
       this.ids = selection.map(item => item.complaintId)
-      this.single = selection.length!==1
+      this.single = selection.length !== 1
       this.multiple = !selection.length
     },
     /** 新增按钮操作 */
@@ -291,12 +345,13 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const complaintIds = row.complaintId || this.ids;
-      this.$modal.confirm('是否确认删除游客投诉管理编号为"' + complaintIds + '"的数据项？').then(function() {
+      this.$modal.confirm('是否确认删除游客投诉管理编号为"' + complaintIds + '"的数据项？').then(function () {
         return delManager(complaintIds);
       }).then(() => {
         this.getList();
         this.$modal.msgSuccess("删除成功");
-      }).catch(() => {});
+      }).catch(() => {
+      });
     },
     /** 导出按钮操作 */
     handleExport() {

@@ -13,8 +13,6 @@ import com.ruoyi.trip.entity.TouristInfo;
 import com.ruoyi.trip.entity.TravelItinerary;
 import com.ruoyi.trip.service.TouristInfoService;
 import com.ruoyi.trip.service.TravelItineraryService;
-import lombok.Data;
-import org.aspectj.weaver.loadtime.Aj;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -38,7 +36,8 @@ public class TripController {
     @PostMapping
     public AjaxResult insert(@RequestBody TravelItineraryDto travelItinerary) {
         SysUser user = SecurityUtils.getLoginUser().getUser();
-        travelItinerary.setTourGuideId(Math.toIntExact(user.getUserId()));
+        TourGuideInfo guide = tourGuideInfoServiceImpl.selectByPhone(user.getUserName());
+        travelItinerary.setTourGuideId(Math.toIntExact(guide.getId()));
         Date start = DateUtils.parseDate(travelItinerary.getStartTime());
         Date end = DateUtils.parseDate(travelItinerary.getEndTime());
         TravelItinerary itinerary = new TravelItinerary();
@@ -77,7 +76,8 @@ public class TripController {
         SysUser loginUser = SecurityUtils.getLoginUser().getUser();
         TourGuideInfo guideInfo = tourGuideInfoServiceImpl.selectByPhone(loginUser.getUserName());
         if (guideInfo != null) {
-            AjaxResult.success(list.stream().filter(item -> item.getName() != null && item.getName().equals(guideInfo.getName())).collect(Collectors.toList()));
+            List<TripDto> collect = list.stream().filter(item -> item.getName() != null && item.getName().equals(guideInfo.getName())).collect(Collectors.toList());
+            return AjaxResult.success(collect);
         }
         return AjaxResult.success(list);
     }
