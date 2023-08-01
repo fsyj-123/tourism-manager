@@ -234,7 +234,6 @@
         <module>ruoyi-common</module>
         <module>tourism-manager</module>
         <module>tourism-manager/travel_agency</module>
-        <module>tourism-manager/itinerary</module>
     </modules>
     <packaging>pom</packaging>
 
