@@ -17,25 +17,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="deleted"    column="deleted"    />
     </resultMap>
 
-    <resultMap type="ComplaintUser" id="ComplaintUserResult">
-        <result property="complaintId"    column="complaint_id"    />
-        <result property="complaintContent"    column="complaint_content"    />
-        <result property="handlingStatus"    column="handling_status"    />
-        <result property="handlingMsg"    column="handling_msg"    />
-        <result property="entityId"    column="entity_id"    />
-        <association property="tourist_info" javaType="com.ruoyi.complaint.pojo.Tourist_info">
-            <id property="userId" column="id"></id>
-            <result property="userName" column="name"></result>
-            <result property="tele" column="phone"></result>
-        </association>
-    </resultMap>
-
-    <select id="selectComplaintUserList" parameterType="ComplaintUser" resultMap="ComplaintUser">
-        select * from complaint_records c left join tourist_info t on c.entity_id=t.id
-    </select>
-
-
-
     <sql id="selectComplaintRecordsVo">
         select complaint_id, complaint_content, handling_status, handling_msg, entity_id, create_time, create_user, modify_time, modify_user, deleted from complaint_records
     </sql>
