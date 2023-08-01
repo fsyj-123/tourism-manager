@@ -124,12 +124,6 @@
                 <artifactId>scenic</artifactId>
                 <version>${ruoyi.version}</version>
             </dependency>
-
-            <dependency>
-                <groupId>com.ruoyi</groupId>
-                <artifactId>complaint</artifactId>
-                <version>${ruoyi.version}</version>
-            </dependency>
             <dependency>
                 <groupId>com.ruoyi</groupId>
                 <artifactId>complaint</artifactId>
@@ -245,7 +239,6 @@
         <module>ruoyi-common</module>
         <module>tourism-manager</module>
         <module>tourism-manager/travel_agency</module>
-
     </modules>
     <packaging>pom</packaging>
 
