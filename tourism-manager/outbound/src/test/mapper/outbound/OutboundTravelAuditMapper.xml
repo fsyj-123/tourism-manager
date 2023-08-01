@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.outbound.mapper.OutboundTravelAuditMapper">
+    
+    <resultMap type="OutboundTravelAudit" id="OutboundTravelAuditResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="qualification"    column="qualification"    />
+        <result property="score"    column="score"    />
+        <result property="status"    column="status"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createUser"    column="create_user"    />
+        <result property="modifyTime"    column="modify_time"    />
+        <result property="modifyUser"    column="modify_user"    />
+        <result property="deleted"    column="deleted"    />
+        <result property="reason"    column="reason"    />
+        <result property="auditStatus"    column="audit_status"    />
+    </resultMap>
+
+    <sql id="selectOutboundTravelAuditVo">
+        select id, name, qualification, score, status, create_time, create_user, modify_time, modify_user, deleted, reason, audit_status from outbound_travel_audit
+    </sql>
+
+    <select id="selectOutboundTravelAuditList" parameterType="OutboundTravelAudit" resultMap="OutboundTravelAuditResult">
+        <include refid="selectOutboundTravelAuditVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="qualification != null  and qualification != ''"> and qualification = #{qualification}</if>
+            <if test="score != null "> and score = #{score}</if>
+            <if test="status != null "> and status = #{status}</if>
+            <if test="reason != null  and reason != ''"> and reason = #{reason}</if>
+            <if test="auditStatus != null "> and audit_status = #{auditStatus}</if>
+        </where>
+    </select>
+    
+    <select id="selectOutboundTravelAuditById" parameterType="Long" resultMap="OutboundTravelAuditResult">
+        <include refid="selectOutboundTravelAuditVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertOutboundTravelAudit" parameterType="OutboundTravelAudit" useGeneratedKeys="true" keyProperty="id">
+        insert into outbound_travel_audit
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">name,</if>
+            <if test="qualification != null">qualification,</if>
+            <if test="score != null">score,</if>
+            <if test="status != null">status,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createUser != null">create_user,</if>
+            <if test="modifyTime != null">modify_time,</if>
+            <if test="modifyUser != null">modify_user,</if>
+            <if test="deleted != null">deleted,</if>
+            <if test="reason != null">reason,</if>
+            <if test="auditStatus != null">audit_status,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">#{name},</if>
+            <if test="qualification != null">#{qualification},</if>
+            <if test="score != null">#{score},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="createUser != null">#{createUser},</if>
+            <if test="modifyTime != null">#{modifyTime},</if>
+            <if test="modifyUser != null">#{modifyUser},</if>
+            <if test="deleted != null">#{deleted},</if>
+            <if test="reason != null">#{reason},</if>
+            <if test="auditStatus != null">#{auditStatus},</if>
+         </trim>
+    </insert>
+
+    <update id="updateOutboundTravelAudit" parameterType="OutboundTravelAudit">
+        update outbound_travel_audit
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name = #{name},</if>
+            <if test="qualification != null">qualification = #{qualification},</if>
+            <if test="score != null">score = #{score},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="createUser != null">create_user = #{createUser},</if>
+            <if test="modifyTime != null">modify_time = #{modifyTime},</if>
+            <if test="modifyUser != null">modify_user = #{modifyUser},</if>
+            <if test="deleted != null">deleted = #{deleted},</if>
+            <if test="reason != null">reason = #{reason},</if>
+            <if test="auditStatus != null">audit_status = #{auditStatus},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteOutboundTravelAuditById" parameterType="Long">
+        delete from outbound_travel_audit where id = #{id}
+    </delete>
+
+    <delete id="deleteOutboundTravelAuditByIds" parameterType="String">
+        delete from outbound_travel_audit where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

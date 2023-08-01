@@ -68,6 +68,10 @@
             <groupId>com.ruoyi</groupId>
             <artifactId>warming</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>outbound</artifactId>
+        </dependency>
 
 
 
