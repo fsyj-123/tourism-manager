@@ -19,6 +19,7 @@
         <module>trip</module>
         <module>complaint</module>
         <module>travel_agency</module>
+        <module>warming</module>
     </modules>
 
     <properties>
