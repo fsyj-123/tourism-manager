@@ -139,6 +139,11 @@
                 <artifactId>trip</artifactId>
                 <version>3.8.6</version>
             </dependency>
+            <dependency>
+                <groupId>com.ruoyi</groupId>
+                <artifactId>outbound_travel_audit</artifactId>
+                <version>${ruoyi.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>com.ruoyi</groupId>
