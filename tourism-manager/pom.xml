@@ -20,7 +20,6 @@
         <module>complaint</module>
         <module>travel_agency</module>
         <module>warming</module>
-        <module>outbound</module>
     </modules>
 
     <properties>
