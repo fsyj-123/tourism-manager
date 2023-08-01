@@ -1,9 +1,9 @@
 <template>
   <div>
     <el-steps :active="active" finish-status="success">
-      <el-step title="步骤 1"></el-step>
-      <el-step title="步骤 2"></el-step>
-      <el-step title="步骤 3"></el-step>
+      <el-step title="填写行程信息"></el-step>
+      <el-step title="添加团队成员"></el-step>
+      <el-step title="完成"></el-step>
     </el-steps>
 
     <div v-if="active===0">
@@ -104,7 +104,7 @@
           </el-table-column>
         </el-table>
 
-        <el-button type="primary" @click="addMemberDialogVisible=true">添加行程</el-button>
+        <el-button type="primary" @click="addMemberDialogVisible=true">添加成员</el-button>
         <!-- 新增团队成员的 Dialog -->
         <el-dialog title="新增团队成员" :visible.sync="addMemberDialogVisible" width="50%">
           <el-form :model="newMember" ref="newMemberForm" label-width="100px">
@@ -148,12 +148,7 @@ export default {
       nextName: '下一步',
       active: 0,
       scheduleData: [
-        {
-          location: '地点A',
-          startTime: '2023-07-30 08:00:00',
-          endTime: '2023-07-30 12:00:00',
-          remark: '备注1',
-        }
+
       ], // 存储行程表格数据
       dialogVisible: false, // 控制 Dialog 的显示与隐藏
       dialogTitle: '', // Dialog 的标题，用于区分添加和修改功能
@@ -163,8 +158,6 @@ export default {
       teamData: {
         memberCount: 0,
         members: [
-          {name: '张三', identityId: '13812345678'},
-          {name: '李四', identityId: '13987654321'},
         ],
       },
       addMemberDialogVisible: false,

@@ -5,7 +5,10 @@ import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.SecurityUtils;
+import com.ruoyi.guide.domain.TourGuideInfo;
+import com.ruoyi.guide.service.ITourGuideInfoService;
 import com.ruoyi.trip.dto.TravelItineraryDto;
+import com.ruoyi.trip.dto.TripDto;
 import com.ruoyi.trip.entity.TouristInfo;
 import com.ruoyi.trip.entity.TravelItinerary;
 import com.ruoyi.trip.service.TouristInfoService;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/trip/manage")
@@ -27,6 +31,9 @@ public class TripController {
 
     @Resource
     private TouristInfoService touristInfoServiceImpl;
+
+    @Resource
+    private ITourGuideInfoService tourGuideInfoServiceImpl;
 
     @PostMapping
     public AjaxResult insert(@RequestBody TravelItineraryDto travelItinerary) {
@@ -62,5 +69,16 @@ public class TripController {
     @GetMapping("/list")
     public AjaxResult getTripList() {
         return AjaxResult.success(touristInfoServiceImpl.getList());
+    }
+
+    @GetMapping("/list/true")
+    public AjaxResult getTripListWithPerson() {
+        List<TripDto> list = touristInfoServiceImpl.getList();
+        SysUser loginUser = SecurityUtils.getLoginUser().getUser();
+        TourGuideInfo guideInfo = tourGuideInfoServiceImpl.selectByPhone(loginUser.getUserName());
+        if (guideInfo != null) {
+            AjaxResult.success(list.stream().filter(item -> item.getName() != null && item.getName().equals(guideInfo.getName())).collect(Collectors.toList()));
+        }
+        return AjaxResult.success(list);
     }
 }
