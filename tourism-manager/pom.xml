@@ -21,6 +21,7 @@
         <module>travel_agency</module>
         <module>warming</module>
         <module>outbound_travel_audit</module>
+        <module>visa</module>
     </modules>
 
     <properties>

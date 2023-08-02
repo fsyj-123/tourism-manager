@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.visa.mapper.VisaMapper">
+    
+    <resultMap type="Visa" id="VisaResult">
+        <result property="visaId"    column="visa_id"    />
+        <result property="tourName"    column="tour_name"    />
+        <result property="tuoristName"    column="tuorist_name"    />
+        <result property="touristPhone"    column="tourist_phone"    />
+        <result property="passportNum"    column="passport_num"    />
+        <result property="audit"    column="audit"    />
+    </resultMap>
+
+    <sql id="selectVisaVo">
+        select visa_id, tour_name, tuorist_name, tourist_phone, passport_num, audit from visa
+    </sql>
+
+    <select id="selectVisaList" parameterType="Visa" resultMap="VisaResult">
+        <include refid="selectVisaVo"/>
+        <where>  
+            <if test="tourName != null  and tourName != ''"> and tour_name like concat('%', #{tourName}, '%')</if>
+            <if test="tuoristName != null  and tuoristName != ''"> and tuorist_name like concat('%', #{tuoristName}, '%')</if>
+            <if test="touristPhone != null  and touristPhone != ''"> and tourist_phone = #{touristPhone}</if>
+            <if test="passportNum != null "> and passport_num = #{passportNum}</if>
+            <if test="audit != null "> and audit = #{audit}</if>
+        </where>
+    </select>
+    
+    <select id="selectVisaByVisaId" parameterType="Long" resultMap="VisaResult">
+        <include refid="selectVisaVo"/>
+        where visa_id = #{visaId}
+    </select>
+        
+    <insert id="insertVisa" parameterType="Visa">
+        insert into visa
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="visaId != null">visa_id,</if>
+            <if test="tourName != null">tour_name,</if>
+            <if test="tuoristName != null">tuorist_name,</if>
+            <if test="touristPhone != null">tourist_phone,</if>
+            <if test="passportNum != null">passport_num,</if>
+            <if test="audit != null">audit,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="visaId != null">#{visaId},</if>
+            <if test="tourName != null">#{tourName},</if>
+            <if test="tuoristName != null">#{tuoristName},</if>
+            <if test="touristPhone != null">#{touristPhone},</if>
+            <if test="passportNum != null">#{passportNum},</if>
+            <if test="audit != null">#{audit},</if>
+         </trim>
+    </insert>
+
+    <update id="updateVisa" parameterType="Visa">
+        update visa
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="tourName != null">tour_name = #{tourName},</if>
+            <if test="tuoristName != null">tuorist_name = #{tuoristName},</if>
+            <if test="touristPhone != null">tourist_phone = #{touristPhone},</if>
+            <if test="passportNum != null">passport_num = #{passportNum},</if>
+            <if test="audit != null">audit = #{audit},</if>
+        </trim>
+        where visa_id = #{visaId}
+    </update>
+
+    <delete id="deleteVisaByVisaId" parameterType="Long">
+        delete from visa where visa_id = #{visaId}
+    </delete>
+
+    <delete id="deleteVisaByVisaIds" parameterType="String">
+        delete from visa where visa_id in 
+        <foreach item="visaId" collection="array" open="(" separator="," close=")">
+            #{visaId}
+        </foreach>
+    </delete>
+</mapper>

@@ -160,6 +160,11 @@
                 <artifactId>warming</artifactId>
                 <version>${ruoyi.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.ruoyi</groupId>
+                <artifactId>visa</artifactId>
+                <version>${ruoyi.version}</version>
+            </dependency>
 
 
             <!-- velocity代码生成使用模板 -->

@@ -72,6 +72,10 @@
             <groupId>com.ruoyi</groupId>
             <artifactId>outbound_travel_audit</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>visa</artifactId>
+        </dependency>
 
 
 
