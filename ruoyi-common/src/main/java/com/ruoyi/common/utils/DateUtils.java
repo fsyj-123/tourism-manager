@@ -55,25 +55,17 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils
     }
 
     public static String get19SysTime() {
-
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
         Date date = new Date();
         String dateStr = sdf.format(date);
-
         return dateStr;
-
     }
 
     public static String get10SysTime() {
-
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-
         Date date = new Date();
         String dateStr = sdf.format(date);
-
         return dateStr;
-
     }
 
     /**

@@ -97,7 +97,7 @@
 
     <el-table v-loading="loading" :data="manageList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="饭店ID，主键自增" align="center" prop="id" />
+      <el-table-column label="饭店序号" align="center" prop="id" />
       <el-table-column label="饭店名称" align="center" prop="name" />
       <el-table-column label="饭店最大接待量" align="center" prop="maxCapacity" />
       <el-table-column label="饭店停车位数量" align="center" prop="parkingLots" />
@@ -126,7 +126,7 @@
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"
