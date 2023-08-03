@@ -41,7 +41,6 @@ public class TourGuideInfoServiceImpl implements ITourGuideInfoService
     @Override
     public List<TourGuideInfo> selectTourGuideInfoList(TourGuideInfo tourGuideInfo)
     {
-//        TODO: 将前端的data日期（licenseStartTime、licenseEndTime）转换为string
         System.out.println("tourGuideInfo: "+tourGuideInfo);
         return tourGuideInfoMapper.selectTourGuideInfoList(tourGuideInfo);
     }
@@ -55,9 +54,6 @@ public class TourGuideInfoServiceImpl implements ITourGuideInfoService
     @Override
     public int insertTourGuideInfo(TourGuideInfo tourGuideInfo)
     {
-//        tourGuideInfo.setCreateTime(DateUtils.getNowDate());
-//        TODO: 将前端的string日期（licenseStartTime、licenseEndTime）转换为data
-
         return tourGuideInfoMapper.insertTourGuideInfo(tourGuideInfo);
     }
 
